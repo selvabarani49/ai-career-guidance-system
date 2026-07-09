@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - Career Guidance System{% endblock %}
+{% block content %}
+
+<div class="container-fluid py-3">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-2">
+    <div>
+      <h2 class="fw-bold mb-1"><i class="bi bi-speedometer2 text-accent me-2"></i> Dashboard</h2>
+      <p class="text-muted mb-0">Overview of your activity and career insights.</p>
+    </div>
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('quiz') }}" class="btn btn-warning shadow-sm"><i class="bi bi-patch-question-fill me-1"></i> Retake Quiz</a>
+      <a href="{{ url_for('career_search') }}" class="btn btn-primary shadow-sm"><i class="bi bi-search me-1"></i> New Search</a>
+    </div>
+  </div>
+
+  <div class="row g-4 mb-4">
+    <!-- Top Stats -->
+    <div class="col-md-3">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <h6 class="text-muted text-uppercase mb-2">Total Searches</h6>
+        <h2 class="fw-bold text-accent mb-0">{{ total_searches }}</h2>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <h6 class="text-muted text-uppercase mb-2">Quiz Attempts</h6>
+        <h2 class="fw-bold text-accent2 mb-0">{{ total_quizzes }}</h2>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <h6 class="text-muted text-uppercase mb-2">Saved Careers</h6>
+        <h2 class="fw-bold text-accent3 mb-0">{{ total_saved }}</h2>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass-card p-4 h-100 text-center transition-hover" style="background: linear-gradient(135deg, rgba(124, 106, 255, 0.1) 0%, rgba(56, 189, 248, 0.1) 100%); border: 1px solid var(--accent);">
+        <h6 class="text-light text-uppercase mb-2">Top Recommendation</h6>
+        <h4 class="fw-bold text-warning mb-0 text-truncate" title="{{ recommended_career }}">{{ recommended_career }}</h4>
+        {% if recommended_career != 'N/A' %}
+          <a href="{{ url_for('career_roadmap', name=recommended_career.lower().replace(' ', '_')) }}" class="btn btn-sm btn-outline-light mt-2 px-3 py-0">View Roadmap</a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Chart & Activities -->
+    <div class="col-lg-8">
+      <div class="glass-card p-4 mb-4">
+        <h5 class="fw-bold mb-4 border-bottom border-secondary pb-2"><i class="bi bi-radar text-accent me-2"></i> Latest Aptitude Profile</h5>
+        {% if total_quizzes > 0 %}
+          <div class="chart-container mx-auto" style="position: relative; height:350px; width: 100%; max-width: 500px;">
+            <canvas id="aptitudeChart"></canvas>
+          </div>
+        {% else %}
+          <div class="text-center py-5">
+            <i class="bi bi-pie-chart text-muted mb-3" style="font-size: 3rem;"></i>
+            <h6 class="text-light">No Quiz Data Available</h6>
+            <p class="text-muted small">Take the AI Career Quiz to unlock your personalized aptitude chart.</p>
+            <a href="{{ url_for('quiz') }}" class="btn btn-outline-warning">Take Quiz Now</a>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="glass-card p-4">
+        <h5 class="fw-bold mb-4 border-bottom border-secondary pb-2"><i class="bi bi-activity text-success me-2"></i> Recent Activity</h5>
+        {% if recent_activities %}
+          <div class="position-relative ms-3">
+            <div class="position-absolute h-100" style="left: 11px; top: 0; width: 2px; background: var(--border);"></div>
+            {% for activity in recent_activities %}
+              <div class="d-flex mb-3 position-relative z-1">
+                <div class="rounded-circle d-flex align-items-center justify-content-center text-white me-3 mt-1 
+                  {% if activity.type == 'search' %}bg-info{% else %}bg-warning{% endif %}" 
+                  style="width: 24px; height: 24px; min-width: 24px; z-index: 2; box-shadow: 0 0 0 4px var(--bg);">
+                  <i class="bi {% if activity.type == 'search' %}bi-search{% else %}bi-patch-question-fill text-dark{% endif %}" style="font-size: 0.7rem;"></i>
+                </div>
+                <div>
+                  <h6 class="mb-0 text-light">{{ activity.title }}</h6>
+                  <p class="text-muted small mb-0">{{ activity.time }}</p>
+                </div>
+              </div>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-muted mb-0 py-3 text-center">No recent activity yet. Start exploring careers!</p>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Right Column: Quick Links & Bookmarks -->
+    <div class="col-lg-4">
+      <div class="glass-card p-4 mb-4" style="background: linear-gradient(135deg, var(--surface2) 0%, rgba(124, 106, 255, 0.05) 100%);">
+        <h5 class="fw-bold mb-3"><i class="bi bi-lightning-charge-fill text-warning me-2"></i> Quick Actions</h5>
+        <div class="d-grid gap-2">
+          <a href="{{ url_for('resume_analyzer') }}" class="btn btn-outline-light text-start"><i class="bi bi-file-earmark-text text-primary me-2"></i> Analyze Resume</a>
+          <a href="{{ url_for('skill_gap_analysis') }}" class="btn btn-outline-light text-start"><i class="bi bi-bullseye text-success me-2"></i> Check Skill Gaps</a>
+          <a href="{{ url_for('resources') }}" class="btn btn-outline-light text-start"><i class="bi bi-book text-info me-2"></i> Learning Resources</a>
+          <a href="{{ url_for('profile') }}" class="btn btn-outline-light text-start"><i class="bi bi-person-badge text-accent me-2"></i> Update Profile</a>
+        </div>
+      </div>
+
+      <div class="glass-card p-4 mb-4">
+        <h5 class="fw-bold mb-3 border-bottom border-secondary pb-2"><i class="bi bi-bookmark-star-fill text-accent2 me-2"></i> Saved Careers</h5>
+        {% if saved_careers %}
+          <ul class="list-group list-group-flush bg-transparent">
+            {% for sc in saved_careers %}
+              <li class="list-group-item bg-transparent text-light border-secondary px-0 py-2 d-flex justify-content-between align-items-center">
+                <span><i class="bi bi-star-fill text-warning me-2" style="font-size: 0.8rem;"></i> {{ sc | title }}</span>
+                <a href="{{ url_for('career_roadmap', name=sc) }}" class="btn btn-sm btn-link p-0 text-accent"><i class="bi bi-arrow-right-circle"></i></a>
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted small text-center py-3">You haven't saved any careers yet. Search or take the quiz to bookmark some!</p>
+        {% endif %}
+      </div>
+      
+      <div class="text-center text-muted small">
+        <p class="mb-1">Member since: {{ member_since.split()[0] if member_since else 'N/A' }}</p>
+        <p>Last login: {{ last_login.split()[0] if last_login else 'N/A' }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if total_quizzes > 0 %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById('aptitudeChart').getContext('2d');
+    const scores = {{ latest_scores | tojson }};
+    
+    new Chart(ctx, {
+      type: 'radar',
+      data: {
+        labels: ['Technical', 'Creative', 'Analytical', 'Social', 'Leadership', 'Practical'],
+        datasets: [{
+          label: 'Your Aptitude Profile',
+          data: [
+            scores.technical,
+            scores.creative,
+            scores.analytical,
+            scores.social,
+            scores.leadership,
+            scores.practical
+          ],
+          backgroundColor: 'rgba(124, 106, 255, 0.3)',
+          borderColor: 'rgba(124, 106, 255, 1)',
+          pointBackgroundColor: 'rgba(56, 189, 248, 1)',
+          pointBorderColor: '#fff',
+          pointHoverBackgroundColor: '#fff',
+          pointHoverBorderColor: 'rgba(56, 189, 248, 1)',
+          borderWidth: 2
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+          r: {
+            angleLines: { color: 'rgba(255, 255, 255, 0.1)' },
+            grid: { color: 'rgba(255, 255, 255, 0.1)' },
+            pointLabels: { color: 'rgba(255, 255, 255, 0.7)', font: { size: 12, family: "'Outfit', sans-serif" } },
+            ticks: { display: false, min: 0, max: 100 }
+          }
+        },
+        plugins: {
+          legend: { position: 'bottom', labels: { color: 'rgba(255, 255, 255, 0.7)', font: { family: "'Outfit', sans-serif" } } }
+        }
+      }
+    });
+  });
+</script>
+{% endif %}
+{% endblock %}

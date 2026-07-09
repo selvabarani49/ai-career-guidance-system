@@ -1,0 +1,186 @@
+{
+  "clusters": [
+    {
+      "id": "software_engineering",
+      "name": "Software Engineering & Architecture",
+      "weights": {"technical": 0.9, "analytical": 0.8, "practical": 0.7, "creative": 0.3, "social": 0.3, "leadership": 0.4},
+      "careers": ["Software Developer", "Cloud Architect", "DevOps Engineer"]
+    },
+    {
+      "id": "data_ai",
+      "name": "Data Science & AI",
+      "weights": {"technical": 0.8, "analytical": 1.0, "practical": 0.5, "creative": 0.5, "social": 0.2, "leadership": 0.3},
+      "careers": ["Data Scientist", "AI/ML Engineer", "Data Analyst"]
+    },
+    {
+      "id": "design_ux",
+      "name": "Design & User Experience",
+      "weights": {"technical": 0.4, "analytical": 0.5, "practical": 0.6, "creative": 1.0, "social": 0.8, "leadership": 0.4},
+      "careers": ["UI/UX Designer", "Product Designer", "Frontend Developer"]
+    },
+    {
+      "id": "product_management",
+      "name": "Product & Project Management",
+      "weights": {"technical": 0.5, "analytical": 0.7, "practical": 0.8, "creative": 0.6, "social": 0.9, "leadership": 1.0},
+      "careers": ["Product Manager", "Scrum Master", "Business Analyst"]
+    },
+    {
+      "id": "cybersecurity",
+      "name": "Cybersecurity & IT Infrastructure",
+      "weights": {"technical": 0.9, "analytical": 0.9, "practical": 0.9, "creative": 0.2, "social": 0.3, "leadership": 0.5},
+      "careers": ["Security Analyst", "Network Engineer", "Penetration Tester"]
+    }
+  ],
+  "questions": [
+    {
+      "id": "q1",
+      "text": "When faced with a complex problem, what is your first instinct?",
+      "options": [
+        {"text": "Break it down into smaller, logical parts.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "Brainstorm unique and out-of-the-box solutions.", "scores": {"creative": 3, "social": 1}},
+        {"text": "Look for a hands-on, immediate fix.", "scores": {"practical": 3, "technical": 1}},
+        {"text": "Gather the team to discuss and delegate tasks.", "scores": {"leadership": 3, "social": 2}}
+      ]
+    },
+    {
+      "id": "q2",
+      "text": "Which of these activities sounds most appealing to you?",
+      "options": [
+        {"text": "Writing a script to automate a tedious task.", "scores": {"technical": 3, "practical": 1}},
+        {"text": "Designing the layout and colors of a new website.", "scores": {"creative": 3, "practical": 1}},
+        {"text": "Analyzing data to find trends and patterns.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "Presenting a project pitch to stakeholders.", "scores": {"social": 3, "leadership": 2}}
+      ]
+    },
+    {
+      "id": "q3",
+      "text": "How do you prefer to learn something new?",
+      "options": [
+        {"text": "Reading detailed documentation and tutorials.", "scores": {"technical": 3, "analytical": 1}},
+        {"text": "Experimenting visually until it looks right.", "scores": {"creative": 3, "practical": 1}},
+        {"text": "Understanding the underlying theory and logic.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "Discussing it with peers or mentors.", "scores": {"social": 3, "leadership": 1}}
+      ]
+    },
+    {
+      "id": "q4",
+      "text": "In a group project, what role do you usually take?",
+      "options": [
+        {"text": "The architect: planning the structure and systems.", "scores": {"technical": 2, "analytical": 2}},
+        {"text": "The visionary: coming up with the big ideas.", "scores": {"creative": 3, "leadership": 1}},
+        {"text": "The coordinator: keeping everyone on track.", "scores": {"leadership": 3, "practical": 2}},
+        {"text": "The doer: putting your head down and getting work done.", "scores": {"practical": 3, "technical": 1}}
+      ]
+    },
+    {
+      "id": "q5",
+      "text": "What type of puzzles do you enjoy most?",
+      "options": [
+        {"text": "Logic grids or Sudoku.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "Jigsaw puzzles or visual spatial games.", "scores": {"creative": 2, "practical": 2}},
+        {"text": "Strategy board games with others.", "scores": {"social": 2, "leadership": 2}},
+        {"text": "Fixing something broken in the real world.", "scores": {"practical": 3, "technical": 1}}
+      ]
+    },
+    {
+      "id": "q6",
+      "text": "How do you handle failure or a roadblock?",
+      "options": [
+        {"text": "Debug the issue systematically to find the root cause.", "scores": {"technical": 3, "analytical": 2}},
+        {"text": "Pivot completely and try a radically different approach.", "scores": {"creative": 3, "practical": 1}},
+        {"text": "Review the data and metrics to see what went wrong.", "scores": {"analytical": 3, "practical": 1}},
+        {"text": "Ask for feedback from others and adjust the plan.", "scores": {"social": 3, "leadership": 2}}
+      ]
+    },
+    {
+      "id": "q7",
+      "text": "What environment do you thrive in?",
+      "options": [
+        {"text": "A quiet space with multiple monitors and deep focus.", "scores": {"technical": 3, "analytical": 1}},
+        {"text": "A vibrant, visually inspiring studio.", "scores": {"creative": 3, "practical": 1}},
+        {"text": "A dynamic setting with constant communication.", "scores": {"social": 3, "practical": 1}},
+        {"text": "At the front of a room, leading a workshop.", "scores": {"leadership": 3, "social": 2}}
+      ]
+    },
+    {
+      "id": "q8",
+      "text": "When looking at a new app, what do you notice first?",
+      "options": [
+        {"text": "How fast it loads and its underlying architecture.", "scores": {"technical": 3, "analytical": 1}},
+        {"text": "How intuitive and beautiful the interface is.", "scores": {"creative": 3, "social": 1}},
+        {"text": "How it organizes and presents its data.", "scores": {"analytical": 3, "practical": 1}},
+        {"text": "How it connects users together.", "scores": {"social": 3, "leadership": 1}}
+      ]
+    },
+    {
+      "id": "q9",
+      "text": "Which tool sounds most exciting to master?",
+      "options": [
+        {"text": "A programming language or cloud platform.", "scores": {"technical": 3, "analytical": 1}},
+        {"text": "A design suite like Figma or Photoshop.", "scores": {"creative": 3, "practical": 1}},
+        {"text": "A data visualization tool like Tableau or Pandas.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "A project management tool like Jira or Trello.", "scores": {"leadership": 2, "practical": 3}}
+      ]
+    },
+    {
+      "id": "q10",
+      "text": "What is your ultimate career goal?",
+      "options": [
+        {"text": "To build robust, scalable, and secure systems.", "scores": {"technical": 3, "practical": 2}},
+        {"text": "To create experiences that delight and inspire users.", "scores": {"creative": 3, "social": 2}},
+        {"text": "To discover hidden truths that drive major decisions.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "To lead a company or team to success.", "scores": {"leadership": 3, "social": 2}}
+      ]
+    },
+    {
+      "id": "q11",
+      "text": "How do you prefer to manage a complex project?",
+      "options": [
+        {"text": "By automating the tracking and progress updates.", "scores": {"technical": 3, "analytical": 1}},
+        {"text": "By visualizing the roadmap and keeping it flexible.", "scores": {"creative": 3, "practical": 1}},
+        {"text": "By breaking it down into measurable milestones and KPIs.", "scores": {"analytical": 3, "leadership": 1}},
+        {"text": "By holding regular sync-ups to ensure team alignment.", "scores": {"social": 3, "leadership": 3}}
+      ]
+    },
+    {
+      "id": "q12",
+      "text": "When someone explains a new concept to you, what helps you understand it best?",
+      "options": [
+        {"text": "Seeing the code, equations, or exact mechanism.", "scores": {"technical": 3, "analytical": 1}},
+        {"text": "An analogy, sketch, or visual representation.", "scores": {"creative": 3, "social": 1}},
+        {"text": "A step-by-step logical breakdown of how it works.", "scores": {"analytical": 3, "practical": 1}},
+        {"text": "Discussing its real-world impact and applications.", "scores": {"social": 3, "leadership": 1}}
+      ]
+    },
+    {
+      "id": "q13",
+      "text": "What is your reaction to an unexpected change in requirements?",
+      "options": [
+        {"text": "Immediately start refactoring the core logic to adapt.", "scores": {"technical": 3, "practical": 1}},
+        {"text": "See it as an opportunity to redesign for a better user experience.", "scores": {"creative": 3, "analytical": 1}},
+        {"text": "Analyze the impact on the timeline and resources.", "scores": {"analytical": 3, "leadership": 1}},
+        {"text": "Gather the team to negotiate and manage stakeholder expectations.", "scores": {"leadership": 3, "social": 3}}
+      ]
+    },
+    {
+      "id": "q14",
+      "text": "Which of these extra-curricular activities sounds the most fun?",
+      "options": [
+        {"text": "Participating in a hackathon or coding challenge.", "scores": {"technical": 3, "analytical": 1}},
+        {"text": "Attending an art exhibit or design workshop.", "scores": {"creative": 3, "social": 1}},
+        {"text": "Solving intricate logic puzzles or playing chess.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "Organizing a community event or volunteering.", "scores": {"social": 3, "leadership": 3}}
+      ]
+    },
+    {
+      "id": "q15",
+      "text": "How do you feel about working with hardware or physical components?",
+      "options": [
+        {"text": "I love integrating software with hardware interfaces.", "scores": {"technical": 3, "practical": 3}},
+        {"text": "I enjoy designing the physical look and feel of the product.", "scores": {"creative": 3, "practical": 1}},
+        {"text": "I prefer working purely with abstract data and models.", "scores": {"analytical": 3, "technical": 1}},
+        {"text": "I focus more on the team building it than the hardware itself.", "scores": {"leadership": 3, "social": 2}}
+      ]
+    }
+  ]
+}

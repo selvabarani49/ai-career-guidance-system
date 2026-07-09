@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Profile - Career Guidance System{% endblock %}
+{% block content %}
+
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="fw-bold mb-1"><i class="bi bi-person-badge-fill text-accent me-2"></i> Profile</h2>
+      <p class="text-muted">Manage your personal and academic information.</p>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Profile Card & Completion -->
+    <div class="col-lg-4">
+      <div class="glass-card p-4 text-center mb-4">
+        <div class="position-relative d-inline-block mb-3">
+          {% if user.get('avatar') %}
+            <img src="{{ url_for('static', filename='uploads/' + user.avatar) }}" class="rounded-circle object-fit-cover border border-3 border-accent" style="width: 120px; height: 120px;" alt="Profile Picture">
+          {% else %}
+            <div class="rounded-circle d-flex align-items-center justify-content-center bg-secondary border border-3 border-accent mx-auto text-white fs-1" style="width: 120px; height: 120px;">
+              {{ user.username[0]|upper }}
+            </div>
+          {% endif %}
+          <div class="position-absolute bottom-0 end-0 bg-success rounded-circle border border-dark" style="width: 20px; height: 20px;" title="Active"></div>
+        </div>
+        <h4 class="fw-bold mb-1">{{ user.username }}</h4>
+        <p class="text-muted small mb-2">{{ user.role | title }}</p>
+        
+        <div class="mt-4 text-start">
+          <p class="text-muted small mb-1 d-flex justify-content-between">
+            <span>Profile Completion</span>
+            <span class="fw-bold text-light">{{ user.get('completion_percentage', 30) }}%</span>
+          </p>
+          <div class="progress" style="height: 8px;">
+            <div class="progress-bar bg-accent" role="progressbar" style="width: {{ user.get('completion_percentage', 30) }}%" aria-valuenow="{{ user.get('completion_percentage', 30) }}" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass-card p-4">
+        <h6 class="fw-bold mb-3"><i class="bi bi-info-circle text-info me-2"></i> Account Details</h6>
+        <ul class="list-unstyled text-muted small mb-0">
+          <li class="mb-2"><strong class="text-light">Member Since:</strong> {{ user.created_at }}</li>
+          <li class="mb-2"><strong class="text-light">Last Login:</strong> {{ user.get('last_login', 'N/A') }}</li>
+          {% if user.get('resume') %}
+          <li class="mb-0 mt-3 pt-3 border-top border-secondary">
+            <strong class="text-light d-block mb-2">Resume Uploaded</strong>
+            <a href="{{ url_for('static', filename='uploads/' + user.resume) }}" target="_blank" class="btn btn-sm btn-outline-success w-100"><i class="bi bi-file-earmark-check me-2"></i> View Resume</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Edit Form -->
+    <div class="col-lg-8">
+      <div class="glass-card p-4">
+        <form method="POST" action="{{ url_for('profile') }}" enctype="multipart/form-data">
+          
+          <h5 class="fw-bold border-bottom border-secondary pb-2 mb-3 text-accent2">Basic Information</h5>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Username</label>
+              <input type="text" class="form-control bg-dark text-muted border-secondary" value="{{ user.username }}" disabled>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Email</label>
+              <input type="email" name="email" class="form-control bg-dark text-light border-secondary" value="{{ user.email }}" required>
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Update Password (Optional)</label>
+              <input type="password" name="password" class="form-control bg-dark text-light border-secondary" placeholder="Leave blank to keep current">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Profile Picture (Image)</label>
+              <input type="file" name="avatar" class="form-control bg-dark text-light border-secondary" accept="image/*">
+            </div>
+          </div>
+
+          <h5 class="fw-bold border-bottom border-secondary pb-2 mb-3 text-accent2">Academic Details</h5>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label text-muted small">College / University</label>
+              <input type="text" name="college" class="form-control bg-dark text-light border-secondary" value="{{ user.get('college', '') }}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Department</label>
+              <input type="text" name="department" class="form-control bg-dark text-light border-secondary" value="{{ user.get('department', '') }}">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Graduation Year</label>
+              <input type="number" name="year" class="form-control bg-dark text-light border-secondary" value="{{ user.get('year', '') }}" min="2000" max="2100">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">CGPA</label>
+              <input type="number" step="0.01" name="cgpa" class="form-control bg-dark text-light border-secondary" value="{{ user.get('cgpa', '') }}" min="0" max="10">
+            </div>
+          </div>
+
+          <h5 class="fw-bold border-bottom border-secondary pb-2 mb-3 text-accent2">Career & Skills</h5>
+          <div class="row g-3 mb-4">
+            <div class="col-md-12">
+              <label class="form-label text-muted small">Career Goal</label>
+              <input type="text" name="career_goal" class="form-control bg-dark text-light border-secondary" value="{{ user.get('career_goal', '') }}" placeholder="e.g. Full Stack Developer, Data Scientist">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Skills (Comma separated)</label>
+              <input type="text" name="skills" class="form-control bg-dark text-light border-secondary" value="{{ user.get('skills', []) | join(', ') }}" placeholder="e.g. Python, React, SQL">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small">Interests (Comma separated)</label>
+              <input type="text" name="interests" class="form-control bg-dark text-light border-secondary" value="{{ user.get('interests', []) | join(', ') }}" placeholder="e.g. AI, Open Source, Blogging">
+            </div>
+            <div class="col-md-12">
+              <label class="form-label text-muted small">Upload Resume (PDF, DOCX)</label>
+              <input type="file" name="resume" class="form-control bg-dark text-light border-secondary" accept=".pdf,.doc,.docx,.txt">
+            </div>
+          </div>
+
+          <h5 class="fw-bold border-bottom border-secondary pb-2 mb-3 text-accent2">Social Links</h5>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label text-muted small"><i class="bi bi-github me-1"></i> GitHub URL</label>
+              <input type="url" name="github" class="form-control bg-dark text-light border-secondary" value="{{ user.get('github', '') }}" placeholder="https://github.com/username">
+            </div>
+            <div class="col-md-6">
+              <label class="form-label text-muted small"><i class="bi bi-linkedin me-1"></i> LinkedIn URL</label>
+              <input type="url" name="linkedin" class="form-control bg-dark text-light border-secondary" value="{{ user.get('linkedin', '') }}" placeholder="https://linkedin.com/in/username">
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-end mt-4">
+            <button type="submit" class="btn btn-primary px-4"><i class="bi bi-save2-fill me-2"></i> Save Profile</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

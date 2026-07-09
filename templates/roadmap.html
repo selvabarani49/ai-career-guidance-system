@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+{% block title %}Career Roadmap - {{ career_name | title }}{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <a href="javascript:history.back()" class="btn btn-sm btn-outline-secondary mb-3"><i class="bi bi-arrow-left"></i> Back</a>
+      <div class="d-flex justify-content-between align-items-center flex-wrap">
+        <h2 class="fw-bold mb-0"><i class="bi bi-map-fill text-accent me-2"></i> Learning Roadmap: {{ career_name | title }}</h2>
+        <button class="btn btn-outline-light btn-sm mt-2 mt-md-0 btn-print" onclick="window.print()"><i class="bi bi-printer"></i> Print Roadmap</button>
+      </div>
+      <p class="text-muted mt-2">{{ career_data.description }}</p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-8 mb-4">
+      <div class="glass-card p-4 h-100">
+        <h4 class="fw-bold mb-4 border-bottom border-secondary pb-2">Step-by-Step Guide</h4>
+        
+        <div class="position-relative ms-3">
+          <!-- Vertical Line -->
+          <div class="position-absolute h-100" style="left: 11px; top: 0; width: 2px; background: var(--border);"></div>
+          
+          {% if career_data.Roadmap %}
+            {% for step in career_data.Roadmap %}
+              <div class="d-flex mb-4 position-relative z-1">
+                <div class="bg-accent rounded-circle d-flex align-items-center justify-content-center text-white me-3 mt-1" style="width: 24px; height: 24px; min-width: 24px; z-index: 2; box-shadow: 0 0 0 4px var(--bg);">
+                  <small>{{ loop.index }}</small>
+                </div>
+                <div>
+                  <h5 class="mb-1 text-light">{{ step }}</h5>
+                  <p class="text-muted small mb-0">Focus on mastering the core concepts and building small proof-of-concepts.</p>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <p class="text-muted">No specific roadmap steps defined for this career yet.</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+    <div class="col-lg-4 mb-4">
+      <div class="glass-card p-4 mb-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-info-circle text-info me-2"></i> Career Insights</h5>
+        <ul class="list-unstyled mb-0 text-muted small">
+          <li class="mb-2"><strong class="text-light">Salary:</strong> {{ career_data.get('Salary', 'N/A') }}</li>
+          <li class="mb-2"><strong class="text-light">Demand:</strong> <span class="badge bg-success">{{ career_data.get('Demand level', 'N/A') }}</span></li>
+          <li class="mb-2"><strong class="text-light">Future Scope:</strong> {{ career_data.get('Future Scope', 'N/A') }}</li>
+        </ul>
+      </div>
+
+      <div class="glass-card p-4 mb-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-journal-bookmark text-warning me-2"></i> Top Courses</h5>
+        {% if career_data.Courses %}
+          <ul class="list-group list-group-flush bg-transparent">
+            {% for course in career_data.Courses %}
+              <li class="list-group-item bg-transparent text-light border-secondary px-0 py-1 small">
+                <i class="bi bi-play-circle me-1"></i> {{ course }}
+              </li>
+            {% endfor %}
+          </ul>
+        {% else %}
+          <p class="text-muted small">No courses listed.</p>
+        {% endif %}
+      </div>
+
+      <div class="glass-card p-4">
+        <h5 class="fw-bold mb-3"><i class="bi bi-award text-success me-2"></i> Certifications</h5>
+        {% if career_data.Certifications %}
+          <div class="d-flex flex-wrap gap-1">
+            {% for cert in career_data.Certifications %}
+              <span class="badge bg-secondary bg-opacity-50 border border-secondary text-light">{{ cert }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-muted small">No certifications listed.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "username": "admin",
+    "query": "java,phython",
+    "timestamp": "2026-07-05 23:49:42"
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "username": "admin",
+    "query": "java,web development,sql,oops,html",
+    "timestamp": "2026-07-06 23:27:40"
+  },
+  {
+    "id": 3,
+    "user_id": 3,
+    "username": "selvabaranik@gmail.com",
+    "query": "phython,java",
+    "skills": "",
+    "interests": "",
+    "education": "",
+    "location": "",
+    "experience": "",
+    "timestamp": "2026-07-08 14:14:18"
+  },
+  {
+    "id": 4,
+    "user_id": 3,
+    "username": "selvabaranik@gmail.com",
+    "query": "java",
+    "skills": "",
+    "interests": "",
+    "education": "",
+    "location": "",
+    "experience": "",
+    "timestamp": "2026-07-09 22:22:30"
+  }
+]

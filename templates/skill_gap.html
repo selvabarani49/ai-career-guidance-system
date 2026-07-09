@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% block title %}Skill Gap Analysis - Career Guidance System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="fw-bold mb-3"><i class="bi bi-bullseye text-danger me-2"></i> Skill Gap Analysis</h2>
+      <p class="text-muted">Compare your profile skills against industry requirements to find your gaps.</p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-4">
+    <div class="col-md-8">
+      <div class="glass-card p-4">
+        <form method="GET" action="{{ url_for('skill_gap_analysis') }}" class="row g-3 align-items-end">
+          <div class="col-md-9">
+            <label for="target" class="form-label text-muted fw-bold">Select Target Career</label>
+            <select class="form-select bg-dark text-light border-secondary" id="target" name="target" required>
+              <option value="" disabled {% if not target %}selected{% endif %}>-- Choose a category --</option>
+              {% for cid, cdata in careers.items() %}
+                <option value="{{ cid }}" {% if target == cid %}selected{% endif %}>{{ cid | title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="col-md-3">
+            <button type="submit" class="btn btn-primary w-100">Analyze</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% if target and gap_data %}
+  <div class="row">
+    <div class="col-md-4 mb-4">
+      <div class="glass-card p-4 h-100">
+        <h5 class="fw-bold mb-3"><i class="bi bi-person-badge text-accent"></i> Your Current Skills</h5>
+        {% if gap_data.user_skills %}
+          <div class="d-flex flex-wrap gap-2">
+            {% for skill in gap_data.user_skills %}
+              <span class="badge bg-secondary p-2">{{ skill }}</span>
+            {% endfor %}
+          </div>
+        {% else %}
+          <p class="text-muted small">You haven't added any skills to your profile yet.</p>
+          <a href="{{ url_for('profile') }}" class="btn btn-sm btn-outline-accent mt-2">Update Profile</a>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-md-8 mb-4">
+      <div class="glass-card p-4 h-100">
+        <h4 class="fw-bold mb-4 text-center">Analysis for {{ target | title }}</h4>
+        
+        <div class="row">
+          <div class="col-md-6 mb-4">
+            <h6 class="text-success fw-bold"><i class="bi bi-check2-circle me-2"></i> Skills You Have</h6>
+            {% if gap_data.matched %}
+              <ul class="list-group list-group-flush bg-transparent">
+                {% for skill in gap_data.matched %}
+                  <li class="list-group-item bg-transparent text-light border-secondary px-0">
+                    <i class="bi bi-check text-success me-2"></i> {{ skill }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <p class="text-muted small">No matches found with required core skills.</p>
+            {% endif %}
+          </div>
+          
+          <div class="col-md-6 mb-4">
+            <h6 class="text-danger fw-bold"><i class="bi bi-exclamation-circle me-2"></i> Skills You Need (Gap)</h6>
+            {% if gap_data.missing %}
+              <ul class="list-group list-group-flush bg-transparent">
+                {% for skill in gap_data.missing %}
+                  <li class="list-group-item bg-transparent text-light border-secondary px-0">
+                    <i class="bi bi-x text-danger me-2"></i> {{ skill }}
+                  </li>
+                {% endfor %}
+              </ul>
+            {% else %}
+              <div class="alert alert-success py-2 mt-2">
+                <i class="bi bi-star-fill me-2"></i> You have all the core skills!
+              </div>
+            {% endif %}
+          </div>
+        </div>
+        
+        {% if gap_data.missing %}
+          <div class="mt-3 text-center">
+            <a href="{{ url_for('career_roadmap', name=target) }}" class="btn btn-outline-warning"><i class="bi bi-map me-2"></i> View Learning Roadmap</a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

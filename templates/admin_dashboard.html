@@ -1,0 +1,153 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard - Career Guidance System{% endblock %}
+
+{% block content %}
+<div class="container-fluid py-4">
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="fw-bold mb-1"><i class="bi bi-shield-lock-fill text-warning me-2"></i> Admin Dashboard</h2>
+      <p class="text-muted">Overview of system analytics and usage statistics.</p>
+    </div>
+  </div>
+
+  <div class="row mb-4 g-4">
+    <div class="col-md-3">
+      <div class="glass-card p-4 text-center h-100">
+        <h6 class="text-muted text-uppercase mb-2">Total Users</h6>
+        <h2 class="fw-bold text-accent mb-0">{{ total_users }}</h2>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass-card p-4 text-center h-100">
+        <h6 class="text-muted text-uppercase mb-2">Total Quizzes</h6>
+        <h2 class="fw-bold text-success mb-0">{{ total_quizzes }}</h2>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass-card p-4 text-center h-100">
+        <h6 class="text-muted text-uppercase mb-2">Total Searches</h6>
+        <h2 class="fw-bold text-info mb-0">{{ total_searches }}</h2>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="glass-card p-4 text-center h-100">
+        <h6 class="text-muted text-uppercase mb-2">System Status</h6>
+        <h2 class="fw-bold text-warning mb-0"><i class="bi bi-check-circle-fill"></i></h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Recent Users -->
+    <div class="col-md-6">
+      <div class="glass-card p-4 h-100">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+          <h5 class="fw-bold mb-0">Recent Registrations</h5>
+          <a href="{{ url_for('admin_users') }}" class="btn btn-sm btn-outline-light border-secondary">View All</a>
+        </div>
+        
+        <div class="table-responsive">
+          <table class="table table-hover table-borderless align-middle">
+            <thead class="border-bottom border-secondary text-muted small">
+              <tr>
+                <th>Username</th>
+                <th>Role</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for user in recent_users %}
+              <tr>
+                <td>
+                  <div class="d-flex align-items-center">
+                    <div class="bg-secondary rounded-circle d-flex align-items-center justify-content-center text-white me-2" style="width: 32px; height: 32px;">
+                      {{ user.username[0]|upper }}
+                    </div>
+                    {{ user.username }}
+                  </div>
+                </td>
+                <td>
+                  {% if user.role == 'admin' %}
+                    <span class="badge bg-warning text-dark">Admin</span>
+                  {% else %}
+                    <span class="badge bg-secondary">Student</span>
+                  {% endif %}
+                </td>
+                <td><span class="badge bg-success bg-opacity-25 text-success">Active</span></td>
+              </tr>
+              {% else %}
+              <tr>
+                <td colspan="3" class="text-center text-muted py-3">No recent registrations.</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Top Careers -->
+    <div class="col-md-6">
+      <div class="glass-card p-4 h-100">
+        <h5 class="fw-bold mb-4">Most Popular Careers (Searches)</h5>
+        {% if top_careers %}
+          <div class="chart-container" style="position: relative; height:250px;">
+            <canvas id="topCareersChart"></canvas>
+          </div>
+        {% else %}
+          <p class="text-muted text-center py-5">Not enough search data to display popular careers.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+{% if top_careers %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById('topCareersChart').getContext('2d');
+    
+    // Prepare data
+    const rawData = {{ top_careers | tojson }};
+    const labels = rawData.map(item => item[0]);
+    const data = rawData.map(item => item[1]);
+    
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Search Frequency',
+          data: data,
+          backgroundColor: 'rgba(124, 106, 255, 0.6)',
+          borderColor: 'rgba(124, 106, 255, 1)',
+          borderWidth: 1,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: { display: false }
+        },
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: { color: '#a78bfa', stepSize: 1 },
+            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+          },
+          x: {
+            ticks: { color: '#a78bfa' },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endif %}
+{% endblock %}

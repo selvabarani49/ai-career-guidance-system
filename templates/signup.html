@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% block title %}Sign Up - Career Guidance System{% endblock %}
+{% block content %}
+
+<div class="container d-flex align-items-center justify-content-center py-4" style="min-height: calc(100vh - 150px);">
+  <div class="row w-100 justify-content-center">
+    <div class="col-md-6 col-lg-5">
+      <div class="glass-card p-5" style="border-top: 4px solid var(--accent2);">
+        
+        <div class="text-center mb-4">
+          <i class="bi bi-rocket-takeoff-fill text-accent2" style="font-size: 3rem;"></i>
+          <h3 class="fw-bold mt-2">Create an Account</h3>
+          <p class="text-muted small">Join us to start planning your perfect career path.</p>
+        </div>
+
+        <form method="POST" action="{{ url_for('signup') }}">
+          <div class="mb-3">
+            <label class="form-label text-muted fw-bold small">Username</label>
+            <div class="input-group">
+              <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-person"></i></span>
+              <input type="text" name="username" class="form-control bg-dark text-light border-secondary" placeholder="Choose a username" required>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label text-muted fw-bold small">Email Address</label>
+            <div class="input-group">
+              <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-envelope"></i></span>
+              <input type="email" name="email" class="form-control bg-dark text-light border-secondary" placeholder="name@example.com" required>
+            </div>
+          </div>
+          
+          <div class="mb-4">
+            <label class="form-label text-muted fw-bold small">Password</label>
+            <div class="input-group">
+              <span class="input-group-text bg-dark border-secondary text-muted"><i class="bi bi-lock"></i></span>
+              <input type="password" name="password" class="form-control bg-dark text-light border-secondary" placeholder="Create a strong password" required>
+            </div>
+            <div class="form-text text-muted small mt-1"><i class="bi bi-info-circle"></i> Must be at least 8 characters long.</div>
+          </div>
+          
+          <button type="submit" class="btn btn-primary w-100 mb-3 py-2 fw-bold shadow">Create Account</button>
+          
+          <div class="position-relative my-4 text-center">
+            <hr class="border-secondary">
+            <span class="position-absolute top-50 start-50 translate-middle px-3 bg-dark text-muted small" style="background: var(--surface) !important;">or continue with</span>
+          </div>
+
+          
+
+          <div class="text-center mt-4">
+            <span class="text-muted small">Already have an account?</span>
+            <a href="{{ url_for('login') }}" class="text-accent fw-bold text-decoration-none ms-1">Sign In</a>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

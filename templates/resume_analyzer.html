@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Resume Analyzer - Career Guidance System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="fw-bold mb-3"><i class="bi bi-file-earmark-text text-accent me-2"></i> Resume Analyzer</h2>
+      <p class="text-muted">Upload your resume to see how well it matches your target career.</p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-8">
+      <div class="glass-card p-4">
+        <form method="POST" action="{{ url_for('resume_analyzer') }}" enctype="multipart/form-data">
+          <div class="mb-4">
+            <label for="resume" class="form-label text-muted fw-bold">Upload Resume (TXT, PDF, DOCX)</label>
+            <input type="file" class="form-control bg-dark text-light border-secondary"
+id="resume" name="resume_file" required accept=".txt,.pdf,.doc,.docx">
+          </div>
+          <div class="mb-4">
+            <label for="target_career" class="form-label text-muted fw-bold">Select Target Career Category</label>
+          <select class="form-select bg-dark text-light border-secondary"
+id="target_career" name="target_career" required>
+              <option value="" disabled selected>-- Choose a category --</option>
+              {% for cid, cdata in careers.items() %}
+                <option value="{{ cid }}">{{ cid | title }}</option>
+              {% endfor %}
+            </select>
+          </div>
+          <div class="d-grid">
+            <button type="submit" class="btn btn-primary"><i class="bi bi-magic me-2"></i> Analyze Resume</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% if results %}
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="glass-card p-4">
+        <h4 class="fw-bold mb-4 text-center">Analysis Results for {{ results.target_category | title }}</h4>
+        
+        <div class="row mb-4 text-center">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <div class="p-4 rounded" style="background: var(--surface2); border: 1px solid var(--border);">
+              <h5 class="text-muted mb-2">Match Score</h5>
+              <h1 class="display-4 fw-bold {% if results.score > 70 %}text-success{% elif results.score > 40 %}text-warning{% else %}text-danger{% endif %}">{{ results.score }}%</h1>
+              <div class="progress mt-3" style="height: 10px;">
+                <div class="progress-bar {% if results.score > 70 %}bg-success{% elif results.score > 40 %}bg-warning{% else %}bg-danger{% endif %}" role="progressbar" style="width: {{ results.score }}%" aria-valuenow="{{ results.score }}" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-4 rounded h-100" style="background: var(--surface2); border: 1px solid var(--border);">
+              <h5 class="text-muted mb-3">Analysis Summary</h5>
+              <p class="mb-0">Your resume contains <strong>{{ results.matched_count }}</strong> out of <strong>{{ results.total_required }}</strong> core skills expected for a career in {{ results.target_category | title }}.</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-6 mb-3 mb-md-0">
+            <h5 class="text-success"><i class="bi bi-check-circle-fill me-2"></i> Matched Skills</h5>
+            {% if results.matched_skills %}
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                {% for skill in results.matched_skills %}
+                  <span class="badge bg-success bg-opacity-25 text-success border border-success p-2">{{ skill }}</span>
+                {% endfor %}
+              </div>
+            {% else %}
+              <p class="text-muted mt-3">No key skills matched for this category.</p>
+            {% endif %}
+          </div>
+          <div class="col-md-6">
+            <h5 class="text-danger"><i class="bi bi-exclamation-circle-fill me-2"></i> Missing Skills</h5>
+            {% if results.missing_skills %}
+              <div class="d-flex flex-wrap gap-2 mt-3">
+                {% for skill in results.missing_skills %}
+                  <span class="badge bg-danger bg-opacity-25 text-danger border border-danger p-2">{{ skill }}</span>
+                {% endfor %}
+              </div>
+              <div class="mt-4">
+                <a href="{{ url_for('skill_gap_analysis', target=results.target_category) }}" class="btn btn-sm btn-outline-warning">View Skill Gap Plan</a>
+              </div>
+            {% else %}
+              <p class="text-muted mt-3">Great job! You have all the core skills.</p>
+            {% endif %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

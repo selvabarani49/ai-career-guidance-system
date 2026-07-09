@@ -1,0 +1,122 @@
+{
+  "python": {
+    "careers": ["Software Developer", "Data Scientist", "Machine Learning Engineer", "Automation Engineer"],
+    "description": "Python skills open doors into software development, data science, and AI/ML roles.",
+    "Salary": "₹4,00,000 - ₹18,00,000 per annum",
+    "Companies": ["Google", "Amazon", "Microsoft", "TCS", "Infosys"],
+    "Future Scope": "Excellent; Python is the lingua franca of AI, data science, and automation.",
+    "Roadmap": ["Learn Python basics", "Build small projects", "Learn a framework (Flask/Django)", "Learn Data Structures & Algorithms", "Contribute to open source"],
+    "Courses": ["Complete Python Bootcamp (Udemy)", "Python for Everybody (Coursera)"],
+    "Certifications": ["PCEP (Certified Entry-Level Python Programmer)", "PCAP (Certified Associate in Python Programming)"],
+    "Required Skills": ["Python", "Algorithms", "Data Structures", "Git", "REST APIs"],
+    "Demand level": "High"
+  },
+  "java": {
+    "careers": ["Backend Developer", "Android Developer", "Enterprise Software Engineer"],
+    "description": "Java is widely used in enterprise applications, Android development, and large-scale backend systems.",
+    "Salary": "₹4,00,000 - ₹16,00,000 per annum",
+    "Companies": ["Oracle", "IBM", "JP Morgan", "Accenture", "Cognizant"],
+    "Future Scope": "Stable; remains heavily used in corporate environments and legacy systems.",
+    "Roadmap": ["Learn Java core concepts", "Learn OOP", "Learn Spring Boot", "Build REST APIs", "Practice DSA"],
+    "Courses": ["Java Programming Masterclass (Udemy)", "Object Oriented Programming in Java (Coursera)"],
+    "Certifications": ["Oracle Certified Associate (OCA)", "Oracle Certified Professional (OCP)"],
+    "Required Skills": ["Java", "Spring Boot", "SQL", "OOP", "Microservices"],
+    "Demand level": "High"
+  },
+  "web development": {
+    "careers": ["Frontend Developer", "Full Stack Developer", "UI/UX Developer"],
+    "description": "Web development skills are in demand for building websites, web apps, and digital products.",
+    "Salary": "₹3,50,000 - ₹15,00,000 per annum",
+    "Companies": ["Meta", "Netflix", "Adobe", "Wipro", "Tech Mahindra"],
+    "Future Scope": "Very Good; the internet continues to expand and evolve with Web3 and AI tools.",
+    "Roadmap": ["Learn HTML/CSS/JavaScript", "Learn a frontend framework (React)", "Learn backend basics (Node/Flask)", "Build portfolio projects"],
+    "Courses": ["The Web Developer Bootcamp (Udemy)", "CS50's Web Programming (edX)"],
+    "Certifications": ["FreeCodeCamp Full Stack Certification", "Meta Front-End Developer Professional Certificate"],
+    "Required Skills": ["HTML", "CSS", "JavaScript", "React/Angular", "Git"],
+    "Demand level": "High"
+  },
+  "data analysis": {
+    "careers": ["Data Analyst", "Business Analyst", "Reporting Analyst"],
+    "description": "Data analysis skills help extract insights from data for business decision-making.",
+    "Salary": "₹3,50,000 - ₹12,00,000 per annum",
+    "Companies": ["Mu Sigma", "Fractal Analytics", "Deloitte", "KPMG", "EY"],
+    "Future Scope": "Excellent; data-driven decision making is becoming standard across all industries.",
+    "Roadmap": ["Learn Excel", "Learn SQL", "Learn Python/Pandas", "Learn data visualization (Power BI/Tableau)"],
+    "Courses": ["Google Data Analytics Professional Certificate", "Data Analysis with Python (Coursera)"],
+    "Certifications": ["Microsoft Certified: Data Analyst Associate", "Tableau Desktop Specialist"],
+    "Required Skills": ["SQL", "Excel", "Python", "Tableau/Power BI", "Statistics"],
+    "Demand level": "High"
+  },
+  "design": {
+    "careers": ["UI/UX Designer", "Graphic Designer", "Product Designer"],
+    "description": "Design skills are essential for creating user-friendly and visually appealing digital products.",
+    "Salary": "₹3,00,000 - ₹12,00,000 per annum",
+    "Companies": ["Apple", "Airbnb", "IDEO", "Swiggy", "Zomato"],
+    "Future Scope": "Good; human-centric design remains critical even as AI tools assist generation.",
+    "Roadmap": ["Learn design principles", "Learn Figma/Adobe XD", "Build a design portfolio", "Learn basic front-end skills"],
+    "Courses": ["Google UX Design Professional Certificate", "Complete Web & Mobile Designer (Udemy)"],
+    "Certifications": ["Nielsen Norman Group UX Certification", "Google UX Design Certificate"],
+    "Required Skills": ["Figma", "Prototyping", "User Research", "Wireframing", "Visual Design"],
+    "Demand level": "Medium"
+  },
+  "networking": {
+    "careers": ["Network Engineer", "System Administrator", "Cybersecurity Analyst"],
+    "description": "Networking skills lead to roles managing IT infrastructure and securing systems.",
+    "Salary": "₹3,50,000 - ₹14,00,000 per annum",
+    "Companies": ["Cisco", "Juniper Networks", "AT&T", "Reliance Jio", "Airtel"],
+    "Future Scope": "Stable; shifting towards cloud networking and software-defined networks (SDN).",
+    "Roadmap": ["Learn networking basics", "Get CCNA certification", "Learn Linux administration", "Explore cybersecurity fundamentals"],
+    "Courses": ["Cisco Networking Academy", "Network+ Certification Prep"],
+    "Certifications": ["CCNA", "CompTIA Network+", "JNCIA"],
+    "Required Skills": ["TCP/IP", "Routing & Switching", "Linux", "Firewalls", "Troubleshooting"],
+    "Demand level": "Medium"
+  },
+  "ai": {
+    "careers": ["AI/ML Engineer", "Prompt Engineer", "Generative AI Developer"],
+    "description": "Artificial Intelligence is the fastest growing field focused on creating intelligent systems and LLMs.",
+    "Salary": "₹8,00,000 - ₹35,00,000 per annum",
+    "Companies": ["OpenAI", "DeepMind", "NVIDIA", "Tesla", "Microsoft"],
+    "Future Scope": "Exceptional; AI is transforming every major industry globally.",
+    "Roadmap": ["Learn Python and Math", "Master PyTorch/TensorFlow", "Learn LLM architectures", "Build GenAI projects with LangChain"],
+    "Courses": ["Deep Learning Specialization (Coursera)", "Machine Learning Engineering for Production (MLOps)"],
+    "Certifications": ["AWS Certified Machine Learning", "Google Professional Machine Learning Engineer"],
+    "Required Skills": ["Python", "TensorFlow/PyTorch", "Math & Stats", "NLP", "Machine Learning"],
+    "Demand level": "Very High"
+  },
+  "cloud": {
+    "careers": ["Cloud Architect", "Cloud Engineer", "DevOps Engineer"],
+    "description": "Cloud computing involves designing, managing, and scaling server infrastructure.",
+    "Salary": "₹7,00,000 - ₹25,00,000 per annum",
+    "Companies": ["Amazon Web Services", "Microsoft Azure", "Google Cloud", "IBM", "VMware"],
+    "Future Scope": "Excellent; massive ongoing migration from on-premise to cloud environments.",
+    "Roadmap": ["Learn Linux basics", "Master AWS/Azure/GCP", "Learn Docker & Kubernetes", "Learn Infrastructure as Code (Terraform)"],
+    "Courses": ["Ultimate AWS Certified Solutions Architect", "Google Cloud Digital Leader"],
+    "Certifications": ["AWS Certified Solutions Architect", "Microsoft Certified: Azure Fundamentals"],
+    "Required Skills": ["AWS/Azure/GCP", "Linux", "Networking", "Security", "Terraform"],
+    "Demand level": "Very High"
+  },
+  "blockchain": {
+    "careers": ["Blockchain Developer", "Smart Contract Auditor", "Web3 Engineer"],
+    "description": "Blockchain development focuses on decentralized applications, cryptography, and smart contracts.",
+    "Salary": "₹6,00,000 - ₹30,00,000 per annum",
+    "Companies": ["Coinbase", "Binance", "ConsenSys", "Polygon", "Chainlink"],
+    "Future Scope": "Volatile but promising for decentralized finance (DeFi) and Web3 adoption.",
+    "Roadmap": ["Learn Cryptography basics", "Master Solidity/Rust", "Understand Ethereum/Solana", "Build dApps and deploy Smart Contracts"],
+    "Courses": ["Blockchain Specialization (Coursera)", "Ethereum and Solidity: The Complete Developer's Guide"],
+    "Certifications": ["Certified Blockchain Expert", "Certified Smart Contract Developer"],
+    "Required Skills": ["Solidity/Rust", "Cryptography", "Smart Contracts", "Web3.js", "Node.js"],
+    "Demand level": "Medium"
+  },
+  "devops": {
+    "careers": ["DevOps Engineer", "Site Reliability Engineer", "Platform Engineer"],
+    "description": "DevOps bridges the gap between software development and IT operations for faster delivery.",
+    "Salary": "₹6,50,000 - ₹28,00,000 per annum",
+    "Companies": ["Netflix", "Uber", "Spotify", "Atlassian", "GitHub"],
+    "Future Scope": "Excellent; continuous integration and deployment are mandatory for modern tech companies.",
+    "Roadmap": ["Learn Git/GitHub", "Master CI/CD pipelines", "Learn Containerization", "Learn Monitoring and Logging"],
+    "Courses": ["DevOps Bootcamp", "Docker & Kubernetes: The Practical Guide"],
+    "Certifications": ["Certified Kubernetes Administrator (CKA)", "AWS Certified DevOps Engineer"],
+    "Required Skills": ["Docker", "Kubernetes", "CI/CD (Jenkins/GitLab)", "Linux", "Scripting (Bash/Python)"],
+    "Demand level": "Very High"
+  }
+}

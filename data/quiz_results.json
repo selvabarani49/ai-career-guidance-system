@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "user_id": 1,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-06 23:20:28"
+  },
+  {
+    "id": 2,
+    "user_id": 1,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-06 23:21:14"
+  },
+  {
+    "id": 3,
+    "user_id": 3,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-08 15:01:59"
+  },
+  {
+    "id": 4,
+    "user_id": 3,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-08 16:01:04"
+  },
+  {
+    "id": 5,
+    "user_id": 3,
+    "top_match_name": "Cybersecurity & IT Infrastructure",
+    "timestamp": "2026-07-09 16:38:35"
+  }
+]

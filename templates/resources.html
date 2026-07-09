@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Learning Resources - Career Guidance System{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+  <div class="row mb-4">
+    <div class="col-12 text-center">
+      <h2 class="fw-bold mb-3"><i class="bi bi-book-half text-accent me-2"></i> Learning Resources</h2>
+      <p class="text-muted">Explore top courses, certifications, and guides to advance your career.</p>
+    </div>
+  </div>
+
+  <div class="row mb-4">
+    <!-- Filter Bar (Simulated UI) -->
+    <div class="col-12">
+      <div class="glass-card p-3 d-flex flex-wrap gap-2 justify-content-center">
+        <button class="btn btn-sm btn-primary">All Resources</button>
+        <button class="btn btn-sm btn-outline-light border-secondary">Courses</button>
+        <button class="btn btn-sm btn-outline-light border-secondary">Certifications</button>
+        <button class="btn btn-sm btn-outline-light border-secondary">Interview Prep</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    {% for cid, cdata in careers.items() %}
+    <div class="col-md-6 col-lg-4">
+      <div class="glass-card p-4 h-100 d-flex flex-column transition-hover" style="border-top: 3px solid var(--accent);">
+        <div class="d-flex justify-content-between align-items-start mb-3">
+          <h5 class="fw-bold text-light mb-0">{{ cid | title }}</h5>
+          <span class="badge bg-dark border border-secondary text-muted small">Path</span>
+        </div>
+        
+        <p class="text-muted small mb-4 flex-grow-1">{{ cdata.description }}</p>
+        
+        <div class="mb-3">
+          <strong class="text-light small d-block mb-2"><i class="bi bi-play-circle text-info me-1"></i> Top Courses:</strong>
+          <ul class="list-unstyled text-muted small ps-3 mb-0" style="list-style-type: disc;">
+            {% for course in cdata.get('Courses', [])[:2] %}
+              <li>{{ course }}</li>
+            {% endfor %}
+          </ul>
+        </div>
+        
+        <div class="mt-auto pt-3 border-top border-secondary">
+          <a href="{{ url_for('career_roadmap', name=cid) }}" class="btn btn-sm btn-outline-accent w-100">View Roadmap</a>
+        </div>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  
+  <div class="row mt-5">
+    <div class="col-12">
+      <h4 class="fw-bold mb-4 border-bottom border-secondary pb-2"><i class="bi bi-chat-left-text text-warning me-2"></i> General Interview Tips</h4>
+      <div class="row">
+        <div class="col-md-4 mb-3">
+          <div class="p-3 rounded bg-dark border border-secondary">
+            <h6 class="fw-bold text-light">1. Master the Fundamentals</h6>
+            <p class="text-muted small mb-0">Ensure your core concepts (Data Structures, Algorithms, System Design) are solid.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="p-3 rounded bg-dark border border-secondary">
+            <h6 class="fw-bold text-light">2. Behavioral Questions</h6>
+            <p class="text-muted small mb-0">Use the STAR method (Situation, Task, Action, Result) to frame your experiences.</p>
+          </div>
+        </div>
+        <div class="col-md-4 mb-3">
+          <div class="p-3 rounded bg-dark border border-secondary">
+            <h6 class="fw-bold text-light">3. Mock Interviews</h6>
+            <p class="text-muted small mb-0">Practice with peers or platforms like Pramp to build confidence under pressure.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<style>
+.transition-hover { transition: transform 0.2s, box-shadow 0.2s; }
+.transition-hover:hover { transform: translateY(-5px); box-shadow: var(--shadow); border-color: var(--accent2) !important; }
+</style>
+{% endblock %}

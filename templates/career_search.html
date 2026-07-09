@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+{% block title %}Career Search - Career Guidance System{% endblock %}
+{% block content %}
+
+<div class="container py-4">
+  <div class="row mb-4 text-center">
+    <div class="col-12">
+      <h2 class="fw-bold mb-2"><i class="bi bi-search text-accent me-2"></i> AI Career Search</h2>
+      <p class="text-muted">Enter your desired role or use advanced filters to find the perfect career match.</p>
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-5">
+    <div class="col-md-10">
+      <div class="glass-card p-4">
+        <form method="POST" action="{{ url_for('career_search') }}">
+          <!-- Primary Search Bar -->
+          <div class="input-group input-group-lg mb-4" style="box-shadow: var(--shadow);">
+            <span class="input-group-text bg-dark border-secondary text-accent border-end-0"><i class="bi bi-search"></i></span>
+            <input type="text" name="query" class="form-control bg-dark text-light border-secondary border-start-0 ps-0" placeholder="e.g., Python, Data Analysis, Cloud..." value="{{ query }}">
+            <button class="btn btn-primary px-4" type="submit">Search</button>
+          </div>
+          
+          <!-- Advanced Filters Toggle -->
+          <div class="text-center mb-3">
+            <button class="btn btn-sm btn-link text-muted text-decoration-none" type="button" data-bs-toggle="collapse" data-bs-target="#advancedFilters" aria-expanded="false" aria-controls="advancedFilters">
+              <i class="bi bi-sliders me-1"></i> Toggle Advanced Filters
+            </button>
+          </div>
+
+          <!-- Advanced Filters -->
+          <div class="collapse" id="advancedFilters">
+            <div class="p-3 bg-dark bg-opacity-50 rounded border border-secondary mb-3">
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label class="form-label text-muted small mb-1">Skills</label>
+                  <input type="text" name="skills" class="form-control form-control-sm bg-transparent text-light border-secondary" placeholder="e.g. React, Python">
+                </div>
+                <div class="col-md-6">
+                  <label class="form-label text-muted small mb-1">Interests</label>
+                  <input type="text" name="interests" class="form-control form-control-sm bg-transparent text-light border-secondary" placeholder="e.g. Design, Data">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label text-muted small mb-1">Education</label>
+                  <select name="education" class="form-select form-select-sm bg-transparent text-light border-secondary">
+                    <option value="" class="text-dark">Any</option>
+                    <option value="bachelors" class="text-dark">Bachelor's Degree</option>
+                    <option value="masters" class="text-dark">Master's Degree</option>
+                    <option value="bootcamp" class="text-dark">Bootcamp/Self-Taught</option>
+                  </select>
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label text-muted small mb-1">Location</label>
+                  <input type="text" name="location" class="form-control form-control-sm bg-transparent text-light border-secondary" placeholder="Remote, City, etc.">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label text-muted small mb-1">Experience Level</label>
+                  <select name="experience" class="form-select form-select-sm bg-transparent text-light border-secondary">
+                    <option value="" class="text-dark">Any</option>
+                    <option value="entry" class="text-dark">Entry Level</option>
+                    <option value="mid" class="text-dark">Mid Level</option>
+                    <option value="senior" class="text-dark">Senior Level</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  {% if result %}
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <div class="glass-card p-0 overflow-hidden mb-4 border border-accent">
+        <!-- Header banner -->
+        <div class="bg-accent bg-opacity-10 p-4 d-flex justify-content-between align-items-center border-bottom border-accent border-opacity-25">
+          <div>
+            <h3 class="fw-bold text-light mb-1">{{ query | title }}</h3>
+            <p class="text-muted mb-0"><i class="bi bi-briefcase-fill me-2 text-warning"></i>{{ result.careers | join(' / ') }}</p>
+          </div>
+          <form action="{{ url_for('bookmark_career', name=query) }}" method="POST">
+            <button type="submit" class="btn btn-outline-warning rounded-circle p-2" title="Bookmark Career"><i class="bi bi-bookmark-plus fs-5"></i></button>
+          </form>
+        </div>
+
+        <!-- Content -->
+        <div class="p-4">
+          <p class="lead text-light mb-4">{{ result.description }}</p>
+          
+          <div class="row g-4 mb-4">
+            <div class="col-md-4">
+              <div class="p-3 rounded bg-dark border border-secondary h-100">
+                <div class="text-muted small text-uppercase mb-1">Avg Salary</div>
+                <div class="fw-bold text-success fs-5">{{ result.get('Salary', 'N/A') }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 rounded bg-dark border border-secondary h-100">
+                <div class="text-muted small text-uppercase mb-1">Demand Level</div>
+                <div class="fw-bold text-info fs-5">{{ result.get('Demand level', 'High') }}</div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="p-3 rounded bg-dark border border-secondary h-100">
+                <div class="text-muted small text-uppercase mb-1">Future Scope</div>
+                <div class="fw-bold text-light">{{ result.get('Future Scope', 'Excellent') }}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 mb-4 mb-md-0">
+              <h5 class="fw-bold mb-3"><i class="bi bi-building text-secondary me-2"></i> Top Companies</h5>
+              <div class="d-flex flex-wrap gap-2">
+                {% for company in result.get('Companies', []) %}
+                  <span class="badge bg-secondary bg-opacity-25 border border-secondary p-2 text-light">{{ company }}</span>
+                {% endfor %}
+              </div>
+              
+              <h5 class="fw-bold mb-3 mt-4"><i class="bi bi-tools text-secondary me-2"></i> Required Skills</h5>
+              <div class="d-flex flex-wrap gap-2">
+                {% for skill in result.get('Required Skills', []) %}
+                  <span class="badge bg-accent bg-opacity-25 border border-accent p-2 text-accent2">{{ skill }}</span>
+                {% endfor %}
+              </div>
+            </div>
+            
+            <div class="col-md-6">
+              <div class="p-4 rounded h-100" style="background: var(--surface2); border: 1px solid var(--border);">
+                <h5 class="fw-bold mb-3"><i class="bi bi-map text-warning me-2"></i> Roadmap Preview</h5>
+                <ul class="list-unstyled mb-4">
+                  {% for step in result.get('Roadmap', [])[:3] %}
+                    <li class="mb-2 d-flex"><i class="bi bi-check-circle-fill text-success me-2 mt-1"></i> <span class="text-muted">{{ step }}</span></li>
+                  {% endfor %}
+                  {% if result.get('Roadmap', [])|length > 3 %}
+                    <li class="mb-2 d-flex"><i class="bi bi-three-dots text-secondary me-2"></i> <span class="text-muted italic">More steps inside...</span></li>
+                  {% endif %}
+                </ul>
+                <div class="d-grid">
+                  <a href="{{ url_for('career_roadmap', name=query) }}" class="btn btn-outline-warning">View Full Learning Roadmap</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+  {% elif query %}
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <div class="glass-card p-5">
+        <i class="bi bi-search text-muted mb-3" style="font-size: 3rem;"></i>
+        <h4 class="text-light">No Exact Match Found</h4>
+        <p class="text-muted">We couldn't find a direct career match for "<strong>{{ query }}</strong>" or your filters.</p>
+        <p class="text-muted small">Try searching for generic fields like: <em>python, java, web development, data analysis, design, networking, ai, cloud, blockchain, devops</em>.</p>
+      </div>
+    </div>
+  </div>
+  {% endif %}
+</div>
+
+{% endblock %}

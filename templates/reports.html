@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% block title %}Reports & Analytics - Career Guidance System{% endblock %}
+{% block content %}
+
+<div class="container py-4">
+  <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap gap-3">
+    <div>
+      <h2 class="fw-bold mb-1"><i class="bi bi-bar-chart-line-fill text-accent me-2"></i> Reports & Analytics</h2>
+      <p class="text-muted mb-0">System-wide usage summary and your personal timeline.</p>
+    </div>
+    <div>
+      <button class="btn btn-outline-light" onclick="window.print()"><i class="bi bi-file-earmark-pdf-fill text-danger me-2"></i> Export as PDF</button>
+    </div>
+  </div>
+
+  <!-- Global Stats -->
+  <div class="row g-4 mb-5 pb-4 border-bottom border-secondary">
+    <div class="col-12">
+      <h5 class="fw-bold text-accent2 mb-3">Global Career Statistics</h5>
+    </div>
+    
+    <div class="col-md-3 col-6">
+      <div class="glass-card p-4 text-center h-100">
+        <h6 class="text-muted text-uppercase mb-2">Total Users</h6>
+        <h2 class="fw-bold text-light mb-0">{{ total_users }}</h2>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="glass-card p-4 text-center h-100">
+        <h6 class="text-muted text-uppercase mb-2">Total Searches</h6>
+        <h2 class="fw-bold text-light mb-0">{{ total_searches }}</h2>
+      </div>
+    </div>
+    
+    <div class="col-md-6">
+      <div class="glass-card p-4 h-100">
+        <h6 class="text-muted text-uppercase mb-3">Most Searched Career Fields</h6>
+        <div class="chart-container" style="position: relative; height:200px; width:100%;">
+          <canvas id="reportsChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Personal History -->
+  <div class="row">
+    <div class="col-12">
+      <h5 class="fw-bold text-accent mb-4">Your Combined History Timeline</h5>
+      
+      <div class="glass-card p-4">
+        {% set combined_history = [] %}
+        {% for h in user_history %}
+          {% set _ = combined_history.append({'type': 'Search', 'title': h.query, 'timestamp': h.timestamp}) %}
+        {% endfor %}
+        {% for q in user_quizzes %}
+          {% set _ = combined_history.append({'type': 'Quiz', 'title': q.top_match_name, 'timestamp': q.timestamp}) %}
+        {% endfor %}
+        
+        {% set sorted_history = combined_history | sort(attribute='timestamp', reverse=True) %}
+        
+        {% if sorted_history %}
+          <div class="table-responsive">
+            <table class="table table-hover table-borderless align-middle mb-0">
+              <thead class="border-bottom border-secondary text-muted small">
+                <tr>
+                  <th>Activity Type</th>
+                  <th>Details</th>
+                  <th>Date & Time</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for item in sorted_history %}
+                  <tr>
+                    <td>
+                      {% if item.type == 'Search' %}
+                        <span class="badge bg-info bg-opacity-25 text-info border border-info"><i class="bi bi-search me-1"></i> Search</span>
+                      {% else %}
+                        <span class="badge bg-warning bg-opacity-25 text-warning border border-warning"><i class="bi bi-patch-question-fill me-1"></i> Quiz</span>
+                      {% endif %}
+                    </td>
+                    <td class="text-light fw-bold">
+                      {% if item.type == 'Search' %}
+                        Searched for: <span class="text-accent2">{{ item.title | title }}</span>
+                      {% else %}
+                        Matched with: <span class="text-warning">{{ item.title }}</span>
+                      {% endif %}
+                    </td>
+                    <td class="text-muted small">{{ item.timestamp }}</td>
+                  </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% else %}
+          <p class="text-muted text-center py-4 mb-0">No history found. Take the quiz or search for a career to build your timeline.</p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+
+{% block scripts %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const ctx = document.getElementById('reportsChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: {{ chart_labels | tojson }},
+        datasets: [{
+          label: 'Number of Searches',
+          data: {{ chart_values | tojson }},
+          backgroundColor: 'rgba(56, 189, 248, 0.6)',
+          borderColor: 'rgba(56, 189, 248, 1)',
+          borderWidth: 1,
+          borderRadius: 4
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: { legend: { display: false } },
+        scales: { 
+          y: { 
+            beginAtZero: true, 
+            ticks: { precision: 0, color: 'rgba(255, 255, 255, 0.7)' },
+            grid: { color: 'rgba(255, 255, 255, 0.05)' }
+          },
+          x: {
+            ticks: { color: 'rgba(255, 255, 255, 0.7)' },
+            grid: { display: false }
+          }
+        }
+      }
+    });
+  });
+</script>
+{% endblock %}

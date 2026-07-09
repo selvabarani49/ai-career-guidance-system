@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "username": "admin",
+    "email": "admin@example.com",
+    "password": "scrypt:32768:8:1$0Knq6Q14zVZbBbRn$1e12da77073e70036bb67d35e43fa370365c383f9a369548c723d6e2baaf0176f127e1623e4ba4ebeebac69d007a0f0acff55ec3fef842cbdecdf7d7ab67d484",
+    "role": "admin",
+    "created_at": "2026-07-05 16:54:47",
+    "last_login": "2026-07-08 07:11:32"
+  },
+  {
+    "id": 2,
+    "username": "Selvabarani K",
+    "email": "selvabaranik@gmail.com",
+    "password": "scrypt:32768:8:1$NDUthMt0iKqYLBs1$38c9d0b38ac28960877543382da55afedf1b639cdddd4ae340b759231001b69a5f97b85d875fb77451aa37c5954d3776dc4e2b86daf65b5ba79e5d9384ae647e",
+    "role": "user",
+    "created_at": "2026-07-05 23:42:53",
+    "last_login": null
+  },
+  {
+    "id": 3,
+    "username": "selvabaranik@gmail.com",
+    "email": "selvabaranik@gmail.com",
+    "password": "scrypt:32768:8:1$BnWNGC4mypDYIttG$52340158d4d0bc9a58acddfc3d72467c425b88606d2a2dd711cf257f191269ca806756da89a34cc22835a5d2c384bbd8ef5956fbc6686a809b035a90ebe7ab00",
+    "role": "user",
+    "created_at": "2026-07-05 23:43:59",
+    "last_login": "2026-07-10 00:19:57"
+  },
+  {
+    "id": 4,
+    "username": "selvabarani",
+    "email": "selvabaranik@gmail.com",
+    "password": "scrypt:32768:8:1$wmc9K74R25XofD3z$abf4b85c550245c355e185cf81ae1a5a9592d034e959783ba36460e36de5191da5f38409e27ad05200405950145c49e4a0475f2e23f169b22fb0bb6af38c84d8",
+    "role": "user",
+    "created_at": "2026-07-05 23:46:05",
+    "last_login": null
+  }
+]

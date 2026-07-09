@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{% block title %}Career Guidance System{% endblock %}</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+<link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark app-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold" href="{{ url_for('home') }}">
+      <i class="bi bi-signpost-2-fill text-accent"></i> Career Guidance System
+    </a>
+    <div class="d-flex align-items-center ms-auto text-white gap-3">
+      <button id="theme-toggle" class="btn btn-sm btn-outline-light border-0" aria-label="Toggle Dark Mode">
+        <i class="bi bi-moon-stars-fill" id="theme-icon"></i>
+      </button>
+
+      {% if current_username %}
+        <!-- Notifications Dropdown -->
+        <div class="dropdown">
+          <button class="btn btn-sm btn-outline-light border-0 position-relative" type="button" id="notifDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+            <i class="bi bi-bell-fill"></i>
+            {% if session.get('notifications') %}
+              <span class="position-absolute top-0 start-100 translate-middle p-1 bg-danger border border-light rounded-circle">
+                <span class="visually-hidden">New alerts</span>
+              </span>
+            {% endif %}
+          </button>
+          <ul class="dropdown-menu dropdown-menu-end p-2 shadow" aria-labelledby="notifDropdown" style="min-width: 300px; background: var(--surface); backdrop-filter: blur(10px);">
+            <li class="px-2 py-1 text-muted fw-bold d-flex justify-content-between">
+              Notifications
+              {% if session.get('notifications') %}
+                <form action="{{ url_for('clear_notifications') }}" method="POST" class="d-inline">
+                  <button type="submit" class="btn btn-sm btn-link p-0 text-danger" style="font-size: 0.8rem;">Clear All</button>
+                </form>
+              {% endif %}
+            </li>
+            <li><hr class="dropdown-divider border-secondary"></li>
+            {% if session.get('notifications') %}
+              {% for notif in session.get('notifications')|reverse %}
+                <li class="px-3 py-2 text-white notification-item mb-1 rounded" style="font-size: 0.9rem;">
+                  {{ notif.message }}
+                  <div class="text-muted" style="font-size: 0.75rem;">{{ notif.time }}</div>
+                </li>
+              {% endfor %}
+            {% else %}
+              <li class="px-3 py-2 text-muted text-center">No new notifications</li>
+            {% endif %}
+          </ul>
+        </div>
+
+        <span class="ms-2 d-none d-md-inline">
+          <i class="bi bi-person-circle"></i> {{ current_username }}
+          {% if current_role == 'admin' %}<span class="badge bg-warning text-dark ms-1">Admin</span>{% endif %}
+        </span>
+        <a href="{{ url_for('logout') }}" class="btn btn-sm btn-outline-light ms-3"><i class="bi bi-box-arrow-right"></i> Logout</a>
+      {% endif %}
+    </div>
+  </div>
+</nav>
+
+<div class="d-flex">
+  {% if current_username %}
+  <div class="sidebar">
+    <ul class="nav flex-column gap-1">
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'home' %}active{% endif %}" href="{{ url_for('home') }}">
+          <i class="bi bi-house-door-fill"></i> Home
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'dashboard' %}active{% endif %}" href="{{ url_for('dashboard') }}">
+          <i class="bi bi-speedometer2"></i> Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'quiz' %}active{% endif %}" href="{{ url_for('quiz') }}">
+          <i class="bi bi-patch-question-fill text-warning"></i> AI Career Quiz
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'career_search' %}active{% endif %}" href="{{ url_for('career_search') }}">
+          <i class="bi bi-search"></i> Career Search
+        </a>
+      </li>
+      <!-- New Features -->
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'resume_analyzer' %}active{% endif %}" href="{{ url_for('resume_analyzer') }}">
+          <i class="bi bi-file-earmark-text-fill"></i> Resume Analyzer
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'skill_gap' %}active{% endif %}" href="{{ url_for('skill_gap_analysis') }}">
+          <i class="bi bi-bullseye"></i> Skill Gap Analysis
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'resources' %}active{% endif %}" href="{{ url_for('resources') }}">
+          <i class="bi bi-book-half"></i> Learning Resources
+        </a>
+      </li>
+      
+      <li class="nav-item mt-3">
+        <hr class="border-secondary mx-3 my-1">
+      </li>
+
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'history_page' %}active{% endif %}" href="{{ url_for('history_page') }}">
+          <i class="bi bi-clock-history"></i> Search History
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'profile' %}active{% endif %}" href="{{ url_for('profile') }}">
+          <i class="bi bi-person-badge-fill"></i> Profile
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'reports' %}active{% endif %}" href="{{ url_for('reports') }}">
+          <i class="bi bi-bar-chart-line-fill"></i> Reports
+        </a>
+      </li>
+      {% if current_role == 'admin' %}
+      <li class="nav-item mt-2">
+        <a class="nav-link {% if active_page == 'admin_dashboard' %}active{% endif %} text-warning" href="{{ url_for('admin_dashboard') }}">
+          <i class="bi bi-shield-lock-fill"></i> Admin Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link {% if active_page == 'admin_users' %}active{% endif %} text-warning" href="{{ url_for('admin_users') }}">
+          <i class="bi bi-people-fill"></i> User Management
+        </a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  {% endif %}
+
+  <div class="main-content">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="toast-container position-fixed bottom-0 end-0 p-3" style="z-index: 1050;">
+        {% for category, message in messages %}
+          <div class="toast align-items-center text-bg-{{ 'danger' if category=='danger' else 'success' if category=='success' else 'primary' }} border-0 show" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+              <div class="toast-body">
+                {% if category == 'success' %}<i class="bi bi-check-circle-fill me-2"></i>{% endif %}
+                {% if category == 'danger' %}<i class="bi bi-exclamation-triangle-fill me-2"></i>{% endif %}
+                {{ message }}
+              </div>
+              <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
+            </div>
+          </div>
+        {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    {% block content %}{% endblock %}
+  </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+  // Dark Mode Toggle Logic
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggleBtn = document.getElementById("theme-toggle");
+    const themeIcon = document.getElementById("theme-icon");
+    const currentTheme = localStorage.getItem("theme") || "dark";
+    
+    if (currentTheme === "light") {
+      document.documentElement.setAttribute("data-theme", "light");
+      themeIcon.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+    }
+
+    if (toggleBtn) {
+      toggleBtn.addEventListener("click", () => {
+        let theme = document.documentElement.getAttribute("data-theme");
+        if (theme === "light") {
+          document.documentElement.removeAttribute("data-theme");
+          localStorage.setItem("theme", "dark");
+          themeIcon.classList.replace("bi-sun-fill", "bi-moon-stars-fill");
+        } else {
+          document.documentElement.setAttribute("data-theme", "light");
+          localStorage.setItem("theme", "light");
+          themeIcon.classList.replace("bi-moon-stars-fill", "bi-sun-fill");
+        }
+      });
+    }
+
+    // Auto-hide toasts after 5 seconds
+    const toasts = document.querySelectorAll('.toast');
+    toasts.forEach(toast => {
+      setTimeout(() => {
+        const bsToast = new bootstrap.Toast(toast);
+        bsToast.hide();
+      }, 5000);
+    });
+  });
+</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

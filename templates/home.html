@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+{% block title %}Home - AI Career Guidance{% endblock %}
+{% block content %}
+
+<!-- Hero Section -->
+<section class="hero-section py-5 mb-5 text-center position-relative overflow-hidden">
+  <div class="container position-relative z-1">
+    <h1 class="display-3 fw-bold mb-3">
+      {% if current_username %}Welcome back, <span class="text-accent">{{ current_username }}</span>!{% else %}Discover Your <span class="text-accent">True Potential</span>{% endif %}
+    </h1>
+    <p class="lead text-muted mb-4 mx-auto" style="max-width: 600px;">
+      Empower your future with our AI-driven career guidance. Get personalized roadmaps, skill gap analysis, and tailored recommendations.
+    </p>
+    <div>
+      {% if current_username %}
+        <a href="{{ url_for('dashboard') }}" class="btn btn-primary btn-lg rounded-pill px-4 me-2"><i class="bi bi-speedometer2 me-2"></i> Go to Dashboard</a>
+        <a href="{{ url_for('quiz') }}" class="btn btn-outline-light btn-lg rounded-pill px-4"><i class="bi bi-patch-question-fill me-2 text-warning"></i> Take AI Quiz</a>
+      {% else %}
+        <a href="{{ url_for('signup') }}" class="btn btn-primary btn-lg rounded-pill px-5 me-2">Get Started</a>
+        <a href="{{ url_for('login') }}" class="btn btn-outline-light btn-lg rounded-pill px-5">Login</a>
+      {% endif %}
+    </div>
+  </div>
+  
+  <!-- Abstract decorations -->
+  <div class="position-absolute rounded-circle" style="width: 300px; height: 300px; background: radial-gradient(circle, var(--accent) 0%, transparent 70%); top: -100px; left: -100px; opacity: 0.2; filter: blur(40px); z-index: 0;"></div>
+  <div class="position-absolute rounded-circle" style="width: 250px; height: 250px; background: radial-gradient(circle, var(--accent3) 0%, transparent 70%); bottom: -50px; right: -50px; opacity: 0.2; filter: blur(40px); z-index: 0;"></div>
+</section>
+
+<!-- Stats Section -->
+<section class="container mb-5">
+  <div class="row g-4 text-center">
+    <div class="col-md-3 col-6">
+      <div class="glass-card p-4 transition-hover">
+        <h2 class="fw-bold text-accent mb-0 counter" data-target="150">0</h2>
+        <p class="text-muted small text-uppercase mb-0 mt-2">Careers Analyzed</p>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="glass-card p-4 transition-hover">
+        <h2 class="fw-bold text-accent2 mb-0 counter" data-target="10000">0</h2><span class="fw-bold text-accent2">+</span>
+        <p class="text-muted small text-uppercase mb-0 mt-2">Users Guided</p>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="glass-card p-4 transition-hover">
+        <h2 class="fw-bold text-accent3 mb-0 counter" data-target="50">0</h2>
+        <p class="text-muted small text-uppercase mb-0 mt-2">Learning Paths</p>
+      </div>
+    </div>
+    <div class="col-md-3 col-6">
+      <div class="glass-card p-4 transition-hover">
+        <h2 class="fw-bold text-warning mb-0 counter" data-target="98">0</h2><span class="fw-bold text-warning">%</span>
+        <p class="text-muted small text-uppercase mb-0 mt-2">Success Rate</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Features Grid -->
+<section class="container py-5 mb-5" id="features">
+  <div class="text-center mb-5">
+    <h6 class="text-accent text-uppercase fw-bold letter-spacing-1">Features</h6>
+    <h2 class="fw-bold">Everything you need to succeed</h2>
+  </div>
+  
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <div class="bg-accent bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+          <i class="bi bi-patch-question-fill text-accent fs-3"></i>
+        </div>
+        <h5 class="fw-bold mb-2">AI Career Quiz</h5>
+        <p class="text-muted small mb-0">Answer 15 targeted questions to receive personalized career recommendations based on your unique traits and aptitude.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <div class="bg-primary bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+          <i class="bi bi-file-earmark-text-fill text-primary fs-3"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Resume Analyzer</h5>
+        <p class="text-muted small mb-0">Upload your resume and get an instant score on how well your skills match your desired career path.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <div class="bg-success bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+          <i class="bi bi-bullseye text-success fs-3"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Skill Gap Analysis</h5>
+        <p class="text-muted small mb-0">Identify missing skills between your current profile and industry requirements, and discover how to bridge the gap.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <div class="bg-warning bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+          <i class="bi bi-map-fill text-warning fs-3"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Career Roadmaps</h5>
+        <p class="text-muted small mb-0">Follow step-by-step learning paths tailored to your target role, from beginner to advanced concepts.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <div class="bg-info bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+          <i class="bi bi-book-half text-info fs-3"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Learning Resources</h5>
+        <p class="text-muted small mb-0">Access curated lists of top courses, certifications, and interview preparation tips for every major tech career.</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 text-center transition-hover">
+        <div class="bg-danger bg-opacity-25 rounded-circle d-inline-flex align-items-center justify-content-center mb-3" style="width: 60px; height: 60px;">
+          <i class="bi bi-bar-chart-line-fill text-danger fs-3"></i>
+        </div>
+        <h5 class="fw-bold mb-2">Analytics & Reports</h5>
+        <p class="text-muted small mb-0">Track your progress, view your quiz history via radar charts, and export your career insights to PDF.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About & Popular Careers Preview -->
+<section class="container py-5 mb-5 border-top border-secondary">
+  <div class="row align-items-center">
+    <div class="col-md-6 mb-4 mb-md-0 pe-md-5">
+      <h6 class="text-accent2 text-uppercase fw-bold letter-spacing-1">About Us</h6>
+      <h2 class="fw-bold mb-4">Bridging the gap between education and industry</h2>
+      <p class="text-muted mb-4">
+        Our platform uses data-driven algorithms to map your innate traits and acquired skills against the current demands of the tech industry. Whether you're a student planning your major or a professional looking to pivot, we provide the clarity you need.
+      </p>
+      <ul class="list-unstyled mb-4">
+        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Unbiased AI recommendations</li>
+        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Real-world skill mappings</li>
+        <li class="mb-2"><i class="bi bi-check-circle-fill text-success me-2"></i> Continuous progress tracking</li>
+      </ul>
+      <a href="{{ url_for('career_search') }}" class="btn btn-outline-light rounded-pill px-4">Explore Careers <i class="bi bi-arrow-right ms-2"></i></a>
+    </div>
+    <div class="col-md-6">
+      <div class="glass-card p-0 overflow-hidden">
+        <img src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Team collaborating" class="img-fluid" style="opacity: 0.8;">
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Testimonials -->
+<section class="container py-5 mb-5">
+  <div class="text-center mb-5">
+    <h6 class="text-accent text-uppercase fw-bold letter-spacing-1">Testimonials</h6>
+    <h2 class="fw-bold">What our users say</h2>
+  </div>
+  
+  <div class="row g-4">
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 position-relative">
+        <i class="bi bi-quote position-absolute text-secondary opacity-25" style="font-size: 4rem; top: -10px; right: 20px;"></i>
+        <p class="text-muted italic mb-4">"The AI quiz was spot on! It helped me realize that Product Management was the perfect intersection of my technical skills and social traits."</p>
+        <div class="d-flex align-items-center">
+          <div class="bg-primary rounded-circle d-flex align-items-center justify-content-center text-white me-3" style="width: 40px; height: 40px;">S</div>
+          <div>
+            <h6 class="mb-0 fw-bold">Sarah Jenkins</h6>
+            <small class="text-muted">Junior PM</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 position-relative">
+        <i class="bi bi-quote position-absolute text-secondary opacity-25" style="font-size: 4rem; top: -10px; right: 20px;"></i>
+        <p class="text-muted italic mb-4">"The Resume Analyzer caught so many missing keywords that I completely overlooked. After updating my resume using the skill gap analysis, I finally got callbacks!"</p>
+        <div class="d-flex align-items-center">
+          <div class="bg-success rounded-circle d-flex align-items-center justify-content-center text-white me-3" style="width: 40px; height: 40px;">M</div>
+          <div>
+            <h6 class="mb-0 fw-bold">Michael Chen</h6>
+            <small class="text-muted">Cloud Engineer</small>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="glass-card p-4 h-100 position-relative">
+        <i class="bi bi-quote position-absolute text-secondary opacity-25" style="font-size: 4rem; top: -10px; right: 20px;"></i>
+        <p class="text-muted italic mb-4">"Having a step-by-step roadmap for Data Science kept me focused. The curated learning resources saved me hundreds of hours of searching."</p>
+        <div class="d-flex align-items-center">
+          <div class="bg-accent rounded-circle d-flex align-items-center justify-content-center text-white me-3" style="width: 40px; height: 40px;">A</div>
+          <div>
+            <h6 class="mb-0 fw-bold">Ayesha Patel</h6>
+            <small class="text-muted">Data Science Student</small>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ Accordion -->
+<section class="container py-5 mb-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="text-center mb-5">
+        <h2 class="fw-bold">Frequently Asked Questions</h2>
+      </div>
+      
+      <div class="accordion accordion-flush" id="faqAccordion" style="border-radius: 12px; overflow: hidden; border: 1px solid var(--border);">
+        <div class="accordion-item" style="background: var(--surface);">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-light fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq1">
+              Is the AI Career Quiz free to take?
+            </button>
+          </h2>
+          <div id="faq1" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted small">
+              Yes, the AI Career Quiz and all foundational tools (like the Resume Analyzer and Skill Gap Analysis) are completely free for registered users.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item" style="background: var(--surface); border-top: 1px solid var(--border);">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-light fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq2">
+              How does the Resume Analyzer work?
+            </button>
+          </h2>
+          <div id="faq2" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted small">
+              Our Resume Analyzer performs intelligent keyword matching against industry standards for your chosen target career. It reads your uploaded document and identifies missing core skills, giving you an actionable match score.
+            </div>
+          </div>
+        </div>
+        <div class="accordion-item" style="background: var(--surface); border-top: 1px solid var(--border);">
+          <h2 class="accordion-header">
+            <button class="accordion-button collapsed bg-transparent text-light fw-bold" type="button" data-bs-toggle="collapse" data-bs-target="#faq3">
+              Can I save my progress and history?
+            </button>
+          </h2>
+          <div id="faq3" class="accordion-collapse collapse" data-bs-parent="#faqAccordion">
+            <div class="accordion-body text-muted small">
+              Absolutely. All your quiz attempts, career searches, and bookmarks are automatically saved to your profile for future reference. You can view them anytime under the Dashboard and Reports sections.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="container-fluid py-4 mt-5 border-top border-secondary" style="background: var(--surface);">
+  <div class="container">
+    <div class="row align-items-center">
+      <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
+        <h5 class="fw-bold mb-1"><i class="bi bi-signpost-2-fill text-accent"></i> Career Guidance System</h5>
+        <small class="text-muted">&copy; 2026 AI Career Guidance. All rights reserved.</small>
+      </div>
+      <div class="col-md-6 text-center text-md-end">
+        <a href="#" class="text-muted text-decoration-none mx-2 hover-text-light"><i class="bi bi-twitter fs-5"></i></a>
+        <a href="#" class="text-muted text-decoration-none mx-2 hover-text-light"><i class="bi bi-github fs-5"></i></a>
+        <a href="#" class="text-muted text-decoration-none mx-2 hover-text-light"><i class="bi bi-linkedin fs-5"></i></a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+.transition-hover { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+.transition-hover:hover { transform: translateY(-5px); box-shadow: 0 10px 30px rgba(124, 106, 255, 0.15); border-color: var(--accent); }
+.letter-spacing-1 { letter-spacing: 1.5px; }
+.hover-text-light:hover { color: var(--text) !important; }
+
+/* Counter Animation */
+@keyframes countUp {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.counter { animation: countUp 1s ease-out forwards; }
+
+/* Accordion overrides */
+.accordion-button:not(.collapsed) {
+  background-color: rgba(124, 106, 255, 0.1) !important;
+  color: var(--accent) !important;
+  box-shadow: none;
+}
+.accordion-button:focus { box-shadow: none; border-color: var(--border); }
+.accordion-button::after { filter: invert(1); }
+</style>
+
+{% endblock %}
+
+{% block scripts %}
+<script>
+  // Simple number counter animation
+  document.addEventListener("DOMContentLoaded", () => {
+    const counters = document.querySelectorAll('.counter');
+    const speed = 200;
+
+    counters.forEach(counter => {
+      const updateCount = () => {
+        const target = +counter.getAttribute('data-target');
+        const count = +counter.innerText;
+        const inc = target / speed;
+
+        if (count < target) {
+          counter.innerText = Math.ceil(count + inc);
+          setTimeout(updateCount, 10);
+        } else {
+          counter.innerText = target;
+        }
+      };
+      
+      // Intersection Observer to trigger only when visible
+      const observer = new IntersectionObserver((entries) => {
+        if(entries[0].isIntersecting) {
+          updateCount();
+          observer.disconnect();
+        }
+      });
+      observer.observe(counter);
+    });
+  });
+</script>
+{% endblock %}
