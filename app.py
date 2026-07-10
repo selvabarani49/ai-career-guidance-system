@@ -210,7 +210,6 @@ def login():
     if "user_id" in session:
         return redirect(url_for("home"))
      if request.method == "POST":
-
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
         remember = request.form.get("remember")  # Check Remember Me
