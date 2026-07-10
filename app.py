@@ -223,7 +223,7 @@ def login():
         or u.get("email", "").lower() == username.lower()
     ),
     None,
-)
+        )
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             session["username"] = user["username"]
