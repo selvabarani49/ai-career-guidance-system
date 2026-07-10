@@ -215,8 +215,15 @@ def login():
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
         remember = request.form.get("remember")  # Check Remember Me
-
-        user = find_user_by_username(username)
+         users = get_users()
+        user = next(
+    (
+        u for u in users
+        if u.get("username", "").lower() == username.lower()
+        or u.get("email", "").lower() == username.lower()
+    ),
+    None,
+)
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             session["username"] = user["username"]
