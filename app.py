@@ -209,13 +209,13 @@ def login():
     """Login page - the entry point of the application."""
     if "user_id" in session:
         return redirect(url_for("home"))
-
-    if request.method == "POST":
+     if request.method == "POST":
 
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
         remember = request.form.get("remember")  # Check Remember Me
-         users = get_users()
+         
+        users = get_users()
         user = next(
     (
         u for u in users
