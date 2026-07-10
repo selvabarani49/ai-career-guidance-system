@@ -67,6 +67,7 @@ google = oauth.register(
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 DATA_DIR = os.path.join(BASE_DIR, "data")
+os.makedirs(DATA_DIR, exist_ok=True)
 USERS_FILE = os.path.join(DATA_DIR, "users.json")
 HISTORY_FILE = os.path.join(DATA_DIR, "history.json")
 CAREERS_FILE = os.path.join(DATA_DIR, "careers.json")
@@ -211,12 +212,12 @@ def login():
         return redirect(url_for("home"))
 
     if request.method == "POST":
-
         username = request.form.get("username", "").strip()
         password = request.form.get("password", "")
         remember = request.form.get("remember")  # Check Remember Me
 
-        user = find_user_by_username(username)
+        users = get_users()
+        user = next((u for u in users if u["username"].lower() == username.lower() or u.get("email", "").lower() == username.lower()), None)
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]
             session["username"] = user["username"]
@@ -228,7 +229,6 @@ def login():
                 session.permanent = False
 
             # update last login
-            users = get_users()
             for u in users:
                 if u["id"] == user["id"]:
                     u["last_login"] = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -282,8 +282,16 @@ def login_google():
 @app.route("/login/google/callback")
 def auth_google_callback():
     """Handle the callback from Google OAuth."""
-    token = google.authorize_access_token()
-    user_info = token.get('userinfo')
+    if not os.environ.get('GOOGLE_CLIENT_ID') or not os.environ.get('GOOGLE_CLIENT_SECRET'):
+        flash("Google Login is not configured (missing env vars).", "danger")
+        return redirect(url_for("login"))
+    try:
+        token = google.authorize_access_token()
+        user_info = token.get('userinfo')
+    except Exception as e:
+        flash(f"Google authentication failed: {str(e)}", "danger")
+        return redirect(url_for("login"))
+
     if not user_info:
         flash("Failed to get user info from Google.", "danger")
         return redirect(url_for("login"))
@@ -342,7 +350,6 @@ def signup():
         username = request.form.get("username", "").strip()
         email = request.form.get("email", "").strip()
         password = request.form.get("password", "")
-        confirm_password = request.form.get("confirm_password", "")
 
         if not username or not email or not password:
             flash("All fields are required.", "danger")
@@ -352,15 +359,11 @@ def signup():
             flash("Please enter a valid email address.", "danger")
             return redirect(url_for("signup"))
 
-        if password != confirm_password:
-            flash("Passwords do not match.", "danger")
-            return redirect(url_for("signup"))
-
-        if find_user_by_username(username):
+        users = get_users()
+        if next((u for u in users if u["username"].lower() == username.lower()), None):
             flash("Username already exists. Choose another.", "danger")
             return redirect(url_for("signup"))
 
-        users = get_users()
         if next((u for u in users if u.get("email", "").lower() == email.lower()), None):
             flash("Email already registered. Please log in or use a different email.", "danger")
             return redirect(url_for("signup"))
@@ -629,9 +632,9 @@ def clear_history():
 def get_profile_completion(user):
     """Calculate the profile completion percentage based on filled fields."""
     fields = [
-        "fullname", "email", "phone", "college", "department", 
-        "current_year", "cgpa", "skills", "interests", 
-        "preferred_career", "linkedin", "github", "avatar", "resume_file"
+        "email", "college", "department", "year", "cgpa", 
+        "career_goal", "skills", "interests", "github", 
+        "linkedin", "avatar", "resume"
     ]
     completed = 0
     for field in fields:
@@ -653,16 +656,14 @@ def profile():
     user = find_user_by_id(session["user_id"])
 
     if request.method == "POST":
-        fullname = request.form.get("fullname", "").strip()
         new_email = request.form.get("email", "").strip()
-        phone = request.form.get("phone", "").strip()
         college = request.form.get("college", "").strip()
         department = request.form.get("department", "").strip()
-        current_year = request.form.get("current_year", "").strip()
+        year = request.form.get("year", "").strip()
         cgpa = request.form.get("cgpa", "").strip()
         skills = request.form.get("skills", "").strip()
         interests = request.form.get("interests", "").strip()
-        preferred_career = request.form.get("preferred_career", "").strip()
+        career_goal = request.form.get("career_goal", "").strip()
         linkedin = request.form.get("linkedin", "").strip()
         github = request.form.get("github", "").strip()
         new_password = request.form.get("password", "").strip()
@@ -670,7 +671,6 @@ def profile():
         users = get_users()
         for u in users:
             if u["id"] == session["user_id"]:
-                u["fullname"] = fullname
                 if new_email:
                     # check duplicate
                     existing = next((x for x in users if x.get("email", "").lower() == new_email.lower() and x["id"] != session["user_id"]), None)
@@ -678,14 +678,13 @@ def profile():
                         flash("Email already registered by another user.", "danger")
                         return redirect(url_for("profile"))
                     u["email"] = new_email
-                u["phone"] = phone
                 u["college"] = college
                 u["department"] = department
-                u["current_year"] = current_year
+                u["year"] = year
                 u["cgpa"] = cgpa
                 u["skills"] = [s.strip() for s in skills.split(",") if s.strip()] if skills else []
                 u["interests"] = [i.strip() for i in interests.split(",") if i.strip()] if interests else []
-                u["preferred_career"] = preferred_career
+                u["career_goal"] = career_goal
                 u["linkedin"] = linkedin
                 u["github"] = github
                 if new_password:
@@ -711,7 +710,7 @@ def profile():
                             ext = resume_file.filename.rsplit('.', 1)[1].lower()
                             filename = f"resume_{session['user_id']}.{ext}"
                             resume_file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-                            u["resume_file"] = filename
+                            u["resume"] = filename
                         else:
                             flash("Allowed resume formats: TXT, PDF, DOC, DOCX", "warning")
                         
@@ -720,6 +719,7 @@ def profile():
         return redirect(url_for("profile"))
 
     completion = get_profile_completion(user)
+    user["completion_percentage"] = completion
     return render_template("profile.html", user=user, completion=completion)
 
 
@@ -923,7 +923,25 @@ def history():
 @app.route("/bookmark-career/<name>", methods=["POST"])
 @login_required
 def bookmark_career(name):
-    return redirect(url_for("career_search"))
+    name_clean = name.strip()
+    if not name_clean:
+        return redirect(url_for("career_search"))
+        
+    users = get_users()
+    for user in users:
+        if user["id"] == session["user_id"]:
+            if "saved_careers" not in user:
+                user["saved_careers"] = []
+            
+            if name_clean not in user["saved_careers"]:
+                user["saved_careers"].append(name_clean)
+                flash(f"Bookmarked {name_clean} successfully!", "success")
+            else:
+                user["saved_careers"].remove(name_clean)
+                flash(f"Removed bookmark for {name_clean}.", "info")
+            break
+    save_users(users)
+    return redirect(request.referrer or url_for("dashboard"))
 
 
 # ---------------------------------------------------------------------------
@@ -937,16 +955,84 @@ def admin_users():
 @app.route("/admin/users/add", methods=["POST"])
 @admin_required
 def admin_add_user():
+    username = request.form.get("username", "").strip()
+    email = request.form.get("email", "").strip()
+    password = request.form.get("password", "")
+    role = request.form.get("role", "user")
+
+    if not username or not email or not password:
+        flash("Username, email, and password are required.", "danger")
+        return redirect(url_for("admin_users"))
+
+    users = get_users()
+    if next((u for u in users if u["username"].lower() == username.lower()), None):
+        flash("Username already exists.", "danger")
+        return redirect(url_for("admin_users"))
+
+    if next((u for u in users if u.get("email", "").lower() == email.lower()), None):
+        flash("Email already registered.", "danger")
+        return redirect(url_for("admin_users"))
+
+    new_user = {
+        "id": get_next_user_id(users),
+        "username": username,
+        "email": email,
+        "password": generate_password_hash(password),
+        "role": role,
+        "created_at": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
+        "last_login": None,
+        "saved_careers": []
+    }
+    users.append(new_user)
+    save_users(users)
+    flash(f"User '{username}' added successfully.", "success")
     return redirect(url_for("admin_users"))
 
 @app.route("/admin/users/edit/<int:user_id>", methods=["POST"])
 @admin_required
 def admin_edit_user(user_id):
+    email = request.form.get("email", "").strip()
+    role = request.form.get("role", "user")
+    password = request.form.get("password", "")
+
+    users = get_users()
+    user_idx = next((i for i, u in enumerate(users) if u["id"] == user_id), None)
+    if user_idx is None:
+        flash("User not found.", "danger")
+        return redirect(url_for("admin_users"))
+
+    if email:
+        existing = next((u for u in users if u.get("email", "").lower() == email.lower() and u["id"] != user_id), None)
+        if existing:
+            flash("Email already registered by another user.", "danger")
+            return redirect(url_for("admin_users"))
+        users[user_idx]["email"] = email
+
+    users[user_idx]["role"] = role
+    if password:
+        users[user_idx]["password"] = generate_password_hash(password)
+
+    save_users(users)
+    flash(f"User '{users[user_idx]['username']}' updated successfully.", "success")
     return redirect(url_for("admin_users"))
 
 @app.route("/admin/users/delete/<int:user_id>", methods=["POST"])
 @admin_required
 def admin_delete_user(user_id):
+    if user_id == session.get("user_id"):
+        flash("You cannot delete your own admin account.", "danger")
+        return redirect(url_for("admin_users"))
+
+    users = get_users()
+    user_idx = next((i for i, u in enumerate(users) if u["id"] == user_id), None)
+    if user_idx is None:
+        flash("User not found.", "danger")
+        return redirect(url_for("admin_users"))
+
+    deleted_username = users[user_idx]["username"]
+    users.pop(user_idx)
+    save_users(users)
+    flash(f"User '{deleted_username}' deleted successfully.", "success")
     return redirect(url_for("admin_users"))
 
 

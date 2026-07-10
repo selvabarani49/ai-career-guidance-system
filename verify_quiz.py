@@ -57,7 +57,7 @@ status, html = test_post("/quiz/submit", quiz_answers)
 print(f"POST /quiz/submit -> {status}")
 
 # Verify redirect/result page
-if "Your AI Career Profile" in html:
+if "Your Career Aptitude Results" in html:
     print("SUCCESS: Redirected to Results page successfully!")
 else:
     print("FAILED: Results page header not found in HTML response.")

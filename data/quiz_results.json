@@ -28,5 +28,23 @@
     "user_id": 3,
     "top_match_name": "Cybersecurity & IT Infrastructure",
     "timestamp": "2026-07-09 16:38:35"
+  },
+  {
+    "id": 6,
+    "user_id": 1,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-10 22:36:04"
+  },
+  {
+    "id": 7,
+    "user_id": 1,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-10 22:37:34"
+  },
+  {
+    "id": 8,
+    "user_id": 1,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-10 23:19:37"
   }
 ]
