@@ -46,5 +46,23 @@
     "user_id": 1,
     "top_match_name": "Data Science & AI",
     "timestamp": "2026-07-10 23:19:37"
+  },
+  {
+    "id": 9,
+    "user_id": 2,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-11 12:35:06"
+  },
+  {
+    "id": 10,
+    "user_id": 2,
+    "top_match_name": "Software Engineering & Architecture",
+    "timestamp": "2026-07-11 13:03:25"
+  },
+  {
+    "id": 11,
+    "user_id": 1,
+    "top_match_name": "Data Science & AI",
+    "timestamp": "2026-07-22 18:51:20"
   }
 ]

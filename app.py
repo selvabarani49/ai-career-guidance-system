@@ -202,6 +202,13 @@ def inject_user():
     }
 
 
+
+
+
+
+
+
+
 # ---------------------------------------------------------------------------
 # AUTH ROUTES
 # ---------------------------------------------------------------------------
@@ -210,6 +217,21 @@ def login():
     """Login page - the entry point of the application."""
     if "user_id" in session:
         return redirect(url_for("home"))
+
+    if request.method == "POST":
+        username = request.form.get("username", "").strip()
+        password = request.form.get("password", "")
+        remember = request.form.get("remember")
+
+        users = get_users()
+        user = next(
+            (
+                u for u in users
+                if u["username"].lower() == username.lower()
+                or u.get("email", "").lower() == username.lower()
+            ),
+            None,
+        )
 
         if user and check_password_hash(user["password"], password):
             session["user_id"] = user["id"]

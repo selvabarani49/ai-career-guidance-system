@@ -36,5 +36,41 @@
     "location": "",
     "experience": "",
     "timestamp": "2026-07-09 22:22:30"
+  },
+  {
+    "id": 5,
+    "user_id": 2,
+    "username": "Selvabarani K",
+    "query": "software engineer",
+    "skills": "",
+    "interests": "",
+    "education": "",
+    "location": "",
+    "experience": "",
+    "timestamp": "2026-07-11 12:36:35"
+  },
+  {
+    "id": 6,
+    "user_id": 2,
+    "username": "Selvabarani K",
+    "query": "phython",
+    "skills": "",
+    "interests": "",
+    "education": "",
+    "location": "",
+    "experience": "",
+    "timestamp": "2026-07-11 12:36:47"
+  },
+  {
+    "id": 7,
+    "user_id": 2,
+    "username": "Selvabarani K",
+    "query": "python",
+    "skills": "",
+    "interests": "",
+    "education": "",
+    "location": "",
+    "experience": "",
+    "timestamp": "2026-07-11 12:36:51"
   }
 ]
