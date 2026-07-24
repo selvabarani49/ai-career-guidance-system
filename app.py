@@ -1092,6 +1092,14 @@ def admin_dashboard():
         
     recent_users = sorted(users, key=lambda x: x.get("created_at", ""), reverse=True)[:5]
     
+    # Calculate top careers from search history for chart
+    field_counts = {}
+    for h in history:
+        query = h.get("query", "")
+        if query:
+            field_counts[query] = field_counts.get(query, 0) + 1
+    top_careers = sorted(field_counts.items(), key=lambda x: x[1], reverse=True)[:5]
+    
     return render_template(
         "admin_dashboard.html",
         total_users=total_users,
@@ -1099,7 +1107,8 @@ def admin_dashboard():
         total_quizzes=total_quizzes,
         popular_matches=sorted_matches,
         registrations=registrations,
-        recent_users=recent_users
+        recent_users=recent_users,
+        top_careers=top_careers
     )
 
 
